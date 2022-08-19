@@ -21,3 +21,7 @@ go run .
 ```
 export PATH="/Users/teason23/go/bin:$PATH"
 ```
+
+
+### 将我们的命令安装到 $GOPATH/bin 目录:
+$ go install
