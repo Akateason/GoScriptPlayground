@@ -16,14 +16,15 @@ func main() {
     app := &cli.App{
         Name:  "boom",
         Usage: "make an explosive entrance",
-        Action: func(*cli.Context) error {
-            
-            fmt.Println("boom! I say!")                        
-            Command("ls")
-            Command("cd a; ls -l") // cd成功了
+        Action: func(ctx *cli.Context) error {
 
-            fmt.Println("222222222")
-            Command("ls")
+            // Arguments 参数  
+            fmt.Printf("step1 boom! I say %q \n", ctx.Args().Get(0)) 
+            
+            // Command("ls -l")
+            // Command("cd a; ls") // cd成功了
+            // fmt.Println("step2 22222222")
+            // Command("ls")
 
             return nil
         },
