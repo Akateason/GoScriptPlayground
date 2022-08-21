@@ -1,4 +1,4 @@
-module example/hello
+module 24mamba/goPlay
 
 go 1.16
 
