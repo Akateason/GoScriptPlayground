@@ -1,7 +1,6 @@
 package main
 
 import (
-	"24mamba/goPlay/BasicUtil"
 	"fmt"
 	"log"
 	"os"
@@ -18,7 +17,9 @@ func main() {
 			// Arguments 参数
 			fmt.Printf("step1 boom! I say %q \n", ctx.Args().Get(0))
 
-			BasicUtil.Command("cd ../../..;ls -l")
+			eFoundation.useCommandLine("cd ../../..;ls -l")
+
+			// BasicUtil.Command("cd ../../..;ls -l")
 
 			return nil
 		},

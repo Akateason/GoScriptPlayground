@@ -1,24 +1,25 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "os"
+	"fmt"
+	"log"
+	"os"
 
-    "github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v2"
 )
 
 func main() {
-    app := &cli.App{
-        Name:  "greet",
-        Usage: "fight the loneliness!",
-        Action: func(*cli.Context) error {
-            fmt.Println("Hello friend!")
-            return nil
-        },
-    }
+	app := &cli.App{
+		Name:  "greet",
+		Usage: "fight the loneliness!",
+		Action: func(*cli.Context) error {
+			fmt.Println("Hello friend!")
 
-    if err := app.Run(os.Args); err != nil {
-        log.Fatal(err)
-    }
+			return nil
+		},
+	}
+
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
+	}
 }
