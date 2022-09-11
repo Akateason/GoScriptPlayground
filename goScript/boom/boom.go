@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"goPlay/earth"
 	"log"
 	"os"
 
@@ -17,9 +18,7 @@ func main() {
 			// Arguments 参数
 			fmt.Printf("step1 boom! I say %q \n", ctx.Args().Get(0))
 
-			eFoundation.useCommandLine("cd ../../..;ls -l")
-
-			// BasicUtil.Command("cd ../../..;ls -l")
+			earth.UseCommandLine("cd ../../..;ls -l")
 
 			return nil
 		},
