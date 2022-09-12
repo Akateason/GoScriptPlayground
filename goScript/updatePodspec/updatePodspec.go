@@ -30,8 +30,8 @@ func main() {
 			earth.UseCommandLine("git add .")
 			earth.UseCommandLine("git commit -m 'publish : " + gitTag + "'")
 			earth.UseCommandLine("git tag " + gitTag)
-
-			// earth.UseCommandLine("git push gitee master")
+			earth.UseCommandLine("git push gitee master")
+			earth.UseCommandLine("git push --tags")
 
 			return nil
 		},
