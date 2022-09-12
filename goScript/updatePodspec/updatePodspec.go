@@ -27,7 +27,8 @@ func main() {
 			fmt.Printf("%q \n", newVersion)
 
 			earth.UseCommandLine("git add .")
-			earth.UseCommandLine("git commit -m 'update version: " + newVersion + "'")
+			earth.UseCommandLine("git commit -m 'publish : " + newVersion + "'")
+			earth.UseCommandLine("git push origin master")
 
 			return nil
 		},
