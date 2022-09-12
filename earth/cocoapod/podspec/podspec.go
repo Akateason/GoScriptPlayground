@@ -38,19 +38,25 @@ func GetVersion() string {
 
 // 更新版本号
 // index: 版本的第几位-> 0,1,2,  0是最大版本, 2是最小版本, 默认为2
-func UpdateVersion(index int) {
+func UpdateVersion(index int) string {
 	willUpdateVersionIndex := index
-
 	oldVersion := GetVersion()
-
 	vItemList := strings.Split(oldVersion, ".")
-	item := vItemList[willUpdateVersionIndex]
-	intItem := earth.Str2Int(item)
+
+	intItem := earth.Str2Int(vItemList[willUpdateVersionIndex])
 	intItem++
 	vItemList[willUpdateVersionIndex] = earth.Int2Str(intItem)
 
+	if willUpdateVersionIndex == 0 {
+		vItemList[1] = "0"
+		vItemList[2] = "0"
+	} else if willUpdateVersionIndex == 1 {
+		vItemList[2] = "0"
+	}
+
 	newVersion := strings.Join(vItemList, ".")
-	result := "\ts.version\t= '" + newVersion + "'"
+	result := "\ts.version = '" + newVersion + "'"
+
 	fmt.Printf("success 🚀🚀🚀 new Version is: %q \n\n", newVersion)
 
 	podspecSource := GetPodSpecContent()
@@ -58,4 +64,6 @@ func UpdateVersion(index int) {
 
 	podspecSource = strings.Replace(podspecSource, keyLine, result, -1)
 	earth.WriteStringToFileFrom(getSpecFileName(), podspecSource)
+
+	return newVersion
 }

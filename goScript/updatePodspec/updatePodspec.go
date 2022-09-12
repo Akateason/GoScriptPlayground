@@ -23,7 +23,8 @@ func main() {
 			}
 			willUpdateVersionIndex := earth.Str2Int(param1)
 
-			podspec.UpdateVersion(willUpdateVersionIndex)
+			newVersion := podspec.UpdateVersion(willUpdateVersionIndex)
+			fmt.Printf("%q \n", newVersion)
 
 			return nil
 		},
