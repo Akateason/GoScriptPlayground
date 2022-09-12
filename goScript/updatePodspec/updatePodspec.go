@@ -28,7 +28,10 @@ func main() {
 
 			earth.UseCommandLine("git add .")
 			earth.UseCommandLine("git commit -m 'publish : " + newVersion + "'")
-			earth.UseCommandLine("git push origin master")
+			err := earth.UseCommandLine("git push origin master")
+			if err.Error() != "" {
+				return err
+			}
 
 			return nil
 		},
