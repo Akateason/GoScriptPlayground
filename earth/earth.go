@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 	"sync"
 )
 
@@ -96,4 +97,28 @@ func GetAllFilePaths(pathname string, s []string) ([]string, error) {
 		}
 	}
 	return s, nil
+}
+
+// 通过 keyword 找对应行
+func FindFirstChoosenLineString(source string, keyword string) string {
+	var list = strings.Split(source, "\n")
+	for i := 0; i < len(list); i++ {
+		var tmpStr = list[i]
+		if strings.Contains(tmpStr, keyword) {
+			return tmpStr
+		}
+	}
+	return ""
+}
+
+// 删除单双引号
+func DeleteQuoteSymbol(source string) string {
+	var tmp = strings.Replace(source, "'", "", -1)
+	tmp = strings.Replace(tmp, "\"", "", -1)
+	return tmp
+}
+
+// 删除空格
+func DeleteSpaceSymbol(source string) string {
+	return strings.Replace(source, " ", "", -1)
 }

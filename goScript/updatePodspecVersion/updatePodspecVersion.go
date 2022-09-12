@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"goPlay/earth"
 	"goPlay/earth/cocoapod/podspec"
 	"log"
 	"os"
@@ -16,12 +14,10 @@ func main() {
 		Usage: "get podSpec Version",
 		Action: func(ctx *cli.Context) error {
 			// Arguments 参数
-			fmt.Printf("%q \n", ctx.Args().Get(0))
-			// earth.UseCommandLine("ls")
+			//fmt.Printf("%q \n", ctx.Args().Get(0))
 
-			var _ = podspec.GetPodSpecContent()
-			var 
-
+			// var _ = podspec.GetPodSpecContent()
+			var _ = podspec.GetVersion()
 
 			return nil
 		},
