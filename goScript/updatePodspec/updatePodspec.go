@@ -25,13 +25,13 @@ func main() {
 
 			newVersion := podspec.UpdateVersion(willUpdateVersionIndex)
 			fmt.Printf("%q \n", newVersion)
+			gitTag := earth.DeleteQuoteSymbol(newVersion)
 
 			earth.UseCommandLine("git add .")
-			earth.UseCommandLine("git commit -m 'publish : " + newVersion + "'")
-			earth.UseCommandLine("git push gitee master")
-			// if err.Error() != "" {
-			// 	return err
-			// }
+			earth.UseCommandLine("git commit -m 'publish : " + gitTag + "'")
+			earth.UseCommandLine("git tag " + gitTag)
+
+			// earth.UseCommandLine("git push gitee master")
 
 			return nil
 		},
