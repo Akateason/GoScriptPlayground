@@ -26,6 +26,9 @@ func main() {
 			newVersion := podspec.UpdateVersion(willUpdateVersionIndex)
 			fmt.Printf("%q \n", newVersion)
 
+			earth.UseCommandLine("git add .")
+			earth.UseCommandLine("git commit -m 'update version: " + newVersion + "'")
+
 			return nil
 		},
 	}
