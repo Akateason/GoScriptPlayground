@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -76,10 +77,10 @@ func WriteStringToFileFrom(fileName string, writeInfo string) {
 	_ = IfNoFileToCreate(fileName)
 	info := []byte(writeInfo)
 	if err := ioutil.WriteFile(fileName, info, 0666); err != nil {
-		log.Printf("WriteStringToFileMethod1 写入文件失败:%+v", err)
+		log.Printf("WriteStringToFileFrom %q 写入文件失败:%+v", fileName, err)
 		return
 	}
-	log.Printf("WriteStringToFileMethod1 写入文件成功")
+	log.Printf("WriteStringToFileFrom %q 写入文件成功", fileName)
 }
 
 // 获取当前项目根目录下所有文件
@@ -121,4 +122,15 @@ func DeleteQuoteSymbol(source string) string {
 // 删除空格
 func DeleteSpaceSymbol(source string) string {
 	return strings.Replace(source, " ", "", -1)
+}
+
+// int to string
+func Int2Str(num int) string {
+	return strconv.Itoa(num)
+}
+
+// string to int
+func Str2Int(str string) int {
+	num, _ := strconv.Atoi(str)
+	return num
 }
