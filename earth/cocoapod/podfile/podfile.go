@@ -69,19 +69,18 @@ func Analysis() []string {
 // 3.
 // 导出新Podfile
 func ExportNewPodfile() string {
-	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
+	// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
 	oldPodfile := FetchContent()
 	resultList := Analysis()
 	for _, value := range resultList {
 		oldStr := findSourceLineWith(value, oldPodfile)
-		fmt.Println("搜索" + value + "\n")
-		fmt.Println("得出" + oldStr + "\n")
+		// fmt.Println("搜索" + value + "\n")
+		// fmt.Println("得出" + oldStr + "\n")
 		if len(oldStr) > 0 {
-			// fmt.Println(oldStr + " 替换🐲 " + value + "\n")
 			oldPodfile = strings.Replace(oldPodfile, oldStr, value, 1)
 		}
 	}
-	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
+	// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
 	return oldPodfile
 }
 
