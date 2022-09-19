@@ -12,8 +12,8 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:  "updatePodspec",
-		Usage: "update podSpec Version\n param(更新版本号第几位 -> 0,1,2)",
+		Name:  "publishPod",
+		Usage: "组件发版 \n param(更新版本号第几位 -> 0,1,2)",
 		Action: func(ctx *cli.Context) error {
 			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
 			var param1 = ctx.Args().Get(0)

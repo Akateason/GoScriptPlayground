@@ -17,7 +17,9 @@ target 'Markiller' do
   pod 'IQKeyboardManager'
   pod 'iosMath'
   
-  pod 'XTFMDB',:path=>'../XTFMDB'
-  
+  pod 'XTFMDB', :path=>'../XTFMDB'
+  pod 'Alamofire1',   :path => '~/Documents/AFNetworking'
+  pod 'Alamofire2',   :podspec => 'https://example.com/Alamofire.podspec'
+  pod 'Alamofire3',     :git => 'https://github.com/looseyi/Alamofire.git',   :tag => '0.7.0'
 end
 
