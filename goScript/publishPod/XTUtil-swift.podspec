@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'XTUtil-swift'
-	s.version = '5.0.0'
+	s.version = '6.0.0'
   s.summary          = 'A short description of XTUtil-swift.'
   s.description      = <<-DESC
 TODO: Add long description of the pod here.
