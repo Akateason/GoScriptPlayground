@@ -27,13 +27,19 @@ func main() {
 			fmt.Printf("%q \n", newVersion)
 			gitTag := earth.DeleteQuoteSymbol(newVersion)
 
+			// git提交
 			earth.UseCommandLine("git add .")
 			earth.UseCommandLine("git commit -m 'publish : " + gitTag + "'")
 			earth.UseCommandLine("git tag " + gitTag)
-			earth.UseCommandLine("git push gitee master")
-			var error = earth.UseCommandLine("git push --tags")
-			if error != nil {
-				return error
+			earth.UseCommandLine("git push gitee master") // 推到gitee 私有库
+			earth.UseCommandLine("git push --tags")
+
+			// 发布私有库
+			specFileName := podspec.GetSpecFileName()
+			cmdLine_updateSpec := "pod repo push XTSpecs " + specFileName + "  --allow-warnings --sources=https://gitee.com/mamba24xtc/xtspecs.git --verbose"
+			publishError := earth.UseCommandLine(cmdLine_updateSpec)
+			if publishError != nil {
+				return publishError
 			}
 
 			return nil
