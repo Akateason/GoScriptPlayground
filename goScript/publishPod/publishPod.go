@@ -15,11 +15,12 @@ func main() {
 		Name:  "publishPod",
 		Usage: "组件发版 \n param(更新版本号第几位 -> 0,1,2)",
 		Action: func(ctx *cli.Context) error {
+			fmt.Printf("🚀组件发版 \n param(更新版本号第几位 -> 0,1,2) \n")
 			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
 			var param1 = ctx.Args().Get(0)
 			if param1 == "" {
 				param1 = "2" // 默认index==2, 默认更新最小版本号
-				fmt.Printf("不输入参数, 默认更新最小版本号 \n")
+				fmt.Printf("不输入参数, 默认输入2更新最小版本号 \n")
 			}
 			willUpdateVersionIndex := earth.Str2Int(param1)
 
