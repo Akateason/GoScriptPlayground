@@ -31,7 +31,10 @@ func main() {
 			earth.UseCommandLine("git commit -m 'publish : " + gitTag + "'")
 			earth.UseCommandLine("git tag " + gitTag)
 			earth.UseCommandLine("git push gitee master")
-			earth.UseCommandLine("git push --tags")
+			var error = earth.UseCommandLine("git push --tags")
+			if error != nil {
+				return error
+			}
 
 			return nil
 		},
