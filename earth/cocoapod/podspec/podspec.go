@@ -7,7 +7,7 @@ import (
 )
 
 // 获取对应podSpec的文件名
-func getSpecFileName() string {
+func GetSpecFileName() string {
 	var files []string
 	files, _ = earth.GetAllFilePaths(".", files)
 	for i := 0; i < len(files); i++ {
@@ -21,7 +21,7 @@ func getSpecFileName() string {
 
 // podspec 内容
 func GetPodSpecContent() string {
-	fileName := getSpecFileName()
+	fileName := GetSpecFileName()
 	return earth.ReadFileFrom(fileName)
 }
 
@@ -63,7 +63,7 @@ func UpdateVersion(index int) string {
 	keyLine := earth.FindFirstChoosenLineString(podspecSource, "s.version")
 
 	podspecSource = strings.Replace(podspecSource, keyLine, result, -1)
-	earth.WriteStringToFileFrom(getSpecFileName(), podspecSource)
+	earth.WriteStringToFileFrom(GetSpecFileName(), podspecSource)
 
 	return newVersion
 }
