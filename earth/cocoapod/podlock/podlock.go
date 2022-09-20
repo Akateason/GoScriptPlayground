@@ -37,6 +37,7 @@ func Analysis() []string {
 	return sourceList
 }
 
+// 获取.lock中 PODS模块
 func fetchPOD() string {
 	analysisResult := Analysis()
 	for _, v := range analysisResult {
@@ -47,6 +48,7 @@ func fetchPOD() string {
 	return ""
 }
 
+// 根据name查找对应pod的版本
 func CheckPodVersion(podName string) []string {
 	podName = strings.ToLower(podName)
 	POD := fetchPOD()
