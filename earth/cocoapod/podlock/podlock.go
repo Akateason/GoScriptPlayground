@@ -49,21 +49,75 @@ func fetchPOD() string {
 }
 
 // 根据name查找对应pod的版本
-func CheckPodVersion(podName string) []string {
+func CheckPodVersion(podName string) {
 	podName = strings.ToLower(podName)
 	POD := fetchPOD()
 	fmt.Println("🦆🦆🦆搜索🦆🦆🦆" + podName + "的版本号")
 	sourceList := strings.Split(POD, "\n")
-	var resultList []string
 	for _, v := range sourceList {
-
-		if v[0:3] == "  -" {
+		if v[0:3] == "  -" { // 找1级
 			var lowerV = strings.ToLower(v)
 			if strings.Contains(lowerV, podName) {
-				resultList = append(resultList, v)
 				fmt.Println("🦆" + v)
 			}
 		}
 	}
-	return resultList
+}
+
+// 找间接依赖. return是否找到
+func FindFather(podName string, lvl int) bool {
+	podName = strings.ToLower(podName)
+	POD := fetchPOD()
+	sourceList := strings.Split(POD, "\n")
+	var tmp1LvlPod string
+	var catched = false // podName 是否有间接依赖
+
+	for _, v := range sourceList {
+		if v[0:3] == "  -" { // 先存1级
+			tmp1LvlPod = cleanPodName(v)
+		}
+
+		if v[0:5] == "    -" { // 找2级
+			var lowerV = strings.ToLower(cleanPodName(v))
+
+			if lowerV == podName {
+				catched = true
+
+				v = cleanPodName(v)
+				lvlString := earth.Int2Str(lvl)
+
+				if lvl == 0 {
+					fmt.Println("🐱" + v + "\n -> " + lvlString + " " + tmp1LvlPod)
+				} else {
+					space := space(lvl)
+					fmt.Println(space + " -> " + lvlString + " " + tmp1LvlPod)
+				}
+
+				FindFather(tmp1LvlPod, lvl+1) // 递归找依赖
+
+				if lvl == 0 {
+					fmt.Println("----------") // 只有在第0层打印结束的时候标记结束
+				}
+			}
+		}
+	}
+
+	return catched
+}
+
+// 拿到干净的pod name
+func cleanPodName(src string) string {
+	src = earth.DeleteSpaceSymbol(src)      // del space
+	src = strings.Replace(src, "-", "", -1) // del -
+	src = strings.Split(src, "(")[0]        // del ()
+	return src
+}
+
+// 打印几个space?
+func space(number int) string {
+	var result = ""
+	for i := 0; i < number; i++ {
+		result += " "
+	}
+	return result
 }
