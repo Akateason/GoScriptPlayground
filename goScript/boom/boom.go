@@ -12,7 +12,7 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "boom",
-		Usage: "make an explosive entrance",
+		Usage: "make an explosive entrance,  unit test, playground",
 		Action: func(ctx *cli.Context) error {
 
 			// Arguments 参数
