@@ -1,0 +1,3 @@
+#!/bin/bash
+echo '"pod trunk push --verbose --use-libraries --allow-warnings"'
+pod trunk push --verbose --use-libraries --allow-warnings
