@@ -1,21 +1,28 @@
 # HOW TO INSTALL ??? ?? ?
 ```
-    ./installAll
+./installAll
 ```
- 
+ ```
 🕛install All start ...
 
 Already up to date.
 go scripts installed
 shell installed
 install complete🔥🔥🔥
-
-
-
-# 如何使用 ??? ?? ?
 ```
-所有的脚本 都能使用-h 查看说明
+
+
+# HOW TO USE ??? ?? ?
 ```
+不明白直接在命名后面加" -h",  所有的脚本都支持查看说明.
+```
+
+
+
+
+---
+---
+---
 
 
 
