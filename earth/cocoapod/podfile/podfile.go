@@ -115,6 +115,22 @@ func isTargetDoEnd(source string) bool {
 	if strings.Contains(source, "use_frameworks") {
 		return true
 	}
+	if strings.Contains(source, "source") {
+		return true
+	}
+	if strings.Contains(source, "platform") {
+		return true
+	}
+	if strings.Contains(source, "post_install") {
+		return true
+	}
+	if strings.Contains(source, "config.") {
+		return true
+	}
+	if strings.Contains(source, "installer.") {
+		return true
+	}
+
 	return false
 }
 
