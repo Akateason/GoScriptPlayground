@@ -1,13 +1,14 @@
 /*
  * @Author: Mamba24 akateason@qq.com
- * @Date: 2022-08-16 21:07:42
+ * @Date: 2022-10-11 01:03:42
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-11 00:58:50
- * @FilePath: /go/goScript/boom/boom.go
- * @Description: 单元测试
+ * @LastEditTime: 2022-10-11 01:07:35
+ * @FilePath: /go/goScript/podGitAddress/podGitAddress.go
+ * @Description: 查pod远程仓库地址
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
  */
+
 package main
 
 import (
@@ -22,17 +23,13 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:  "boom",
-		Usage: "make an explosive entrance,  unit test, playground",
+		Name:  "podGitAddress",
+		Usage: "查所有pod的远程仓库地址",
 		Action: func(ctx *cli.Context) error {
-			fmt.Println("boom! I say~")
-			// get Arguments 参数
-			fmt.Printf("单元测试~~~args === %q\n", ctx.Args())
-			// fmt.Printf("boom! I say %q \n", ctx.Args().Get(0))
-			// earth.UseCommandLine("cd ../../..;ls -l")
 
+			fmt.Println("查所有pod的远程仓库地址")
 			fmt.Println("start ... ")
-			// earth.UseCommandLine("pod repo update")
+
 			resultlist := podfileLock.FetchEverySpecRepos()
 
 			for _, v := range resultlist {

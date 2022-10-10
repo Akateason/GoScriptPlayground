@@ -1,5 +1,17 @@
+<!--
+ * @Author: Mamba24 akateason@qq.com
+ * @Date: 2022-08-16 20:45:07
+ * @LastEditors: Mamba24 akateason@qq.com
+ * @LastEditTime: 2022-10-11 00:24:04
+ * @FilePath: /go/setupReadme.md
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved. 
+-->
 # HOW TO INSTALL ??? ?? ?
+
 ```
+cd 到项目根目录
 ./installAll
 ```
  ```
@@ -10,7 +22,15 @@ go scripts installed
 shell installed
 install complete🔥🔥🔥
 ```
+如果不能安装,看这里
+```
+1. 先安装go环境. 去官网下载
+然后go env检查是否安装好
 
+2. 把PATH配置到.zshrc或者.bashrc(用哪个配哪个)
+这个path就是go env里面的"GOPATH"
+export PATH="/Users/xxx/go/bin:$PATH"
+```
 
 # HOW TO USE ??? ?? ?
 ```
