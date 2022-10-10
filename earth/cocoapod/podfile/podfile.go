@@ -1,3 +1,13 @@
+/*
+ * @Author: Mamba24 akateason@qq.com
+ * @Date: 2022-09-19 23:07:46
+ * @LastEditors: Mamba24 akateason@qq.com
+ * @LastEditTime: 2022-10-09 23:57:29
+ * @FilePath: /go/earth/cocoapod/podfile/podfile.go
+ * @Description: podfile工具
+ *
+ * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
+ */
 package podfile
 
 import (
@@ -19,7 +29,7 @@ func GetPodfileFileName() string {
 	return ""
 }
 
-// Podfile内容
+// 获取Podfile内容
 func FetchContent() string {
 	fileName := GetPodfileFileName()
 	return earth.ReadFileFrom(fileName)
@@ -28,7 +38,7 @@ func FetchContent() string {
 // 解析Podfile. 分组
 // 1.
 // 忽略 纯\n
-// 忽略 target do ... end  嵌套
+// 忽略 target do ... end  嵌套 忽略各种关键字.
 // 忽略 #注释
 // 2.
 // 根据pod内容分组
@@ -84,7 +94,69 @@ func ExportNewPodfile() string {
 	return oldPodfile
 }
 
-// ///////PRIVATE/////////
+// podKey
+// pod name
+const kPodName = "podName"
+
+// 上个版本. 用来reset
+const kOriginContent = "originContent"
+
+// 本地路径
+const kLocalPath = "localPath"
+
+// // 远程路径
+// // 1. git仓库信息
+// const kGitRemotePath_andTag = "remotePath+tag"
+// const kGitRemotePath_andBranch = "remotePath+branch"
+// const kGitRemotePath_andCommit = "remotePath+commit"
+
+// // 2. pod版本号
+// const kVerison = "version"
+
+// 嵌套字典 声明
+type t_mapType map[string]string
+
+// pod来源状态.
+// 只能是 kLocalPath,
+const kPodResourceState = "state"
+
+/*
+*
+
+  - @description: 将pod按照本地配置进行处理. 并返回
+
+  - @param {[]string} podList 数据源
+
+  - @param localPathMap 一个字典套字典, 映射表
+    localPathMap =
+    [podName : [originContent:string!, localPath:string?, remotePath:string?, branch:string?, commitHash:string?]]
+
+  - @param state 待改的状态 localPath或branch或commitHash
+
+  - @return {podList, localPathMap}
+*/
+func makeOnePodLinkToMapConfigure(podList []string, localPathMap map[string]t_mapType, state string) ([]string, map[string]t_mapType) {
+
+	// loop map
+	for podNameKey, contentMap := range localPathMap {
+
+		for _, podValue := range podList {
+			if strings.Contains(podValue, "\""+podNameKey+"\"") ||
+				strings.Contains(podValue, "'"+podNameKey+"'") {
+				// podfile is matched !
+				fmt.Println(podNameKey + " - is matched !🐶")
+
+				contentMap[kOriginContent] = podValue
+			}
+		}
+
+	}
+
+	return podList, localPathMap
+}
+
+// -------------------------------------------------- //
+// -- Private
 // 字符串全部都是空格?
 func isAllWhiteSpace(source string) bool {
 	source = earth.DeleteSpaceSymbol(source)
