@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-11 01:03:42
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-11 01:07:35
+ * @LastEditTime: 2022-10-11 01:11:52
  * @FilePath: /go/goScript/podGitAddress/podGitAddress.go
  * @Description: 查pod远程仓库地址
  *
@@ -38,6 +38,9 @@ func main() {
 				cmlStr += "awk '/Source/ {print $3; exit; }' tmp.txt"
 				earth.UseCommandLine(cmlStr)
 			}
+
+			earth.UseCommandLine("rm -f tmp.txt")
+			fmt.Println("[Done]")
 
 			return nil
 		},
