@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-12 01:48:47
+ * @LastEditTime: 2022-10-12 01:57:43
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -26,6 +26,11 @@ func main() {
 		Name:  "publishAll",
 		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录.",
 		Action: func(ctx *cli.Context) error {
+			e0 := earth.UseCommandLine("ga .;gcmsg 'publish'")
+			if e0 != nil {
+				fmt.Printf("❌git出错\n")
+				return e0
+			}
 
 			fmt.Printf("build All start ...\n\n")
 			// get gopath/bin
