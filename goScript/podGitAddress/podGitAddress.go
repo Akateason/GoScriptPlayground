@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-11 01:03:42
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-11 01:11:52
+ * @LastEditTime: 2022-10-13 23:44:25
  * @FilePath: /go/goScript/podGitAddress/podGitAddress.go
  * @Description: 查pod远程仓库地址
  *
@@ -33,10 +33,11 @@ func main() {
 			resultlist := podfileLock.FetchEverySpecRepos()
 
 			for _, v := range resultlist {
-				fmt.Printf(v + "👉🏻")
 				cmlStr := "pod search " + v + " > tmp.txt;"
+				cmlStr += "awk '/->/ {print $0; exit; }' tmp.txt;"
 				cmlStr += "awk '/Source/ {print $3; exit; }' tmp.txt"
 				earth.UseCommandLine(cmlStr)
+				fmt.Println("========================================")
 			}
 
 			earth.UseCommandLine("rm -f tmp.txt")
