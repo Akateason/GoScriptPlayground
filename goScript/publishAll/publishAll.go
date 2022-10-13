@@ -25,14 +25,21 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "publishAll",
-		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录. 自动加版本号.",
+		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录. 自动加版本号. param(更新版本号第几位 -> 0,1,2)",
 		Action: func(ctx *cli.Context) error {
+			fmt.Printf("🚀所有脚本安装与发版 \n param(更新版本号第几位 -> 0,1,2) \n")
+			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
+			var param1 = ctx.Args().Get(0)
+			if param1 == "" {
+				param1 = "2" // 默认index==2, 默认更新最小版本号
+				fmt.Printf("不输入参数, 默认输入2更新最小版本号 \n")
+			}
 
 			// 最高tag
 			tag := ggit.LatestTagVersion()
 			tag = earth.UpdateVersionWith(2, tag)
 			fmt.Printf("new version: %q\n\n", tag)
-
+			// git 提交
 			earth.UseCommandLine("git add .;git commit -m 'publish " + tag + "';")
 			earth.UseCommandLine("git tag " + tag)
 			earth.UseCommandLine("git push origin master")
