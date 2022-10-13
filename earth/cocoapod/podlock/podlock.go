@@ -1,3 +1,13 @@
+/*
+ * @Author: Mamba24 akateason@qq.com
+ * @Date: 2022-09-20 09:12:02
+ * @LastEditors: Mamba24 akateason@qq.com
+ * @LastEditTime: 2022-10-11 00:04:38
+ * @FilePath: /go/earth/cocoapod/podlock/podlock.go
+ * @Description: handle podfile.lock
+ *
+ * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
+ */
 package podfileLock
 
 import (
@@ -37,15 +47,23 @@ func Analysis() []string {
 	return sourceList
 }
 
-// 获取.lock中 PODS模块
-func fetchPOD() string {
-	analysisResult := Analysis()
-	for _, v := range analysisResult {
-		if v[0:5] == "PODS:" {
-			return v
+/**
+ * @description: 获取每个pod的数组.
+ * @return {sourcelist}
+ */
+func FetchEverySpecRepos() []string {
+	var resultList []string
+	specReposResult := fetchSection("SPEC REPOS:")
+	sourceList := strings.Split(specReposResult, "\n")
+	for _, v := range sourceList {
+		v = earth.DeleteSpaceSymbol(v)
+		v = earth.DeleteQuoteSymbol(v)
+		if strings.HasPrefix(v, "-") {
+			v = strings.TrimPrefix(v, "-")
+			resultList = append(resultList, v)
 		}
 	}
-	return ""
+	return resultList
 }
 
 // 根据name查找对应pod的版本
@@ -105,6 +123,9 @@ func FindFather(podName string, lvl int) bool {
 	return catched
 }
 
+// --------------------------------------------------
+// Private
+// --------------------------------------------------
 // 拿到干净的pod name
 func cleanPodName(src string) string {
 	src = earth.DeleteSpaceSymbol(src)      // del space
@@ -120,4 +141,24 @@ func space(number int) string {
 		result += " "
 	}
 	return result
+}
+
+/**
+ * @description: 获取.lock的模块
+ * @param {string} name 模块name, 比如PODS:
+ * @return {*}
+ */
+func fetchSection(name string) string {
+	analysisResult := Analysis()
+	for _, v := range analysisResult {
+		if strings.HasPrefix(v, name) {
+			return v
+		}
+	}
+	return ""
+}
+
+// 获取.lock中 PODS模块
+func fetchPOD() string {
+	return fetchSection("PODS:")
 }

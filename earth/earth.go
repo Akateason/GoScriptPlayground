@@ -2,6 +2,7 @@ package earth
 
 import (
 	"bufio"
+
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -13,14 +14,29 @@ import (
 	"sync"
 )
 
-// 调用命令行
+/**
+ * @description: 调用命令行
+ * @param {string} cmd
+ * @return {error} 不关心结果
+ */
 func UseCommandLine(cmd string) error {
+	err, _ := ExecuteCommandLine(cmd)
+	return err
+}
+
+/**
+ * @description: 调用命令行
+ * @param {string} cmd
+ * @return error, string {带执行结果}
+ */
+func ExecuteCommandLine(cmd string) (error, string) {
 	c := exec.Command("bash", "-c", cmd) // mac or linux
 	stdout, err := c.StdoutPipe()
 	if err != nil {
-		return err
+		return err, err.Error()
 	}
 	var wg sync.WaitGroup
+	var resultString string
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
@@ -31,11 +47,12 @@ func UseCommandLine(cmd string) error {
 				return
 			}
 			fmt.Print(readString)
+			resultString += readString
 		}
 	}()
 	err = c.Start()
 	wg.Wait()
-	return err
+	return err, resultString
 }
 
 // readFileFrom 使用ioutil.ReadFile 直接从文件读取到 []byte中
@@ -133,4 +150,25 @@ func Int2Str(num int) string {
 func Str2Int(str string) int {
 	num, _ := strconv.Atoi(str)
 	return num
+}
+
+/**
+ * @description: 更新版本号
+ * @param {int} index 版本的第几位-> 0,1,2,  0是最大版本, 2是最小版本, 默认为2
+ * @param {string} oldTag 老版本号
+ * @return {string} 新版本号
+ */
+func UpdateVersionWith(index int, oldVersion string) string {
+	vItemList := strings.Split(oldVersion, ".")
+	intItem := Str2Int(vItemList[index])
+	intItem++
+	vItemList[index] = Int2Str(intItem)
+	if index == 0 {
+		vItemList[1] = "0"
+		vItemList[2] = "0"
+	} else if index == 1 {
+		vItemList[2] = "0"
+	}
+	newVersion := strings.Join(vItemList, ".")
+	return newVersion
 }
