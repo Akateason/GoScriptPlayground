@@ -1,3 +1,13 @@
+/*
+ * @Author: Mamba24 akateason@qq.com
+ * @Date: 2022-08-21 11:55:52
+ * @LastEditors: Mamba24 akateason@qq.com
+ * @LastEditTime: 2022-10-14 01:34:08
+ * @FilePath: /go/goScript/publishPod/publishPod.go
+ * @Description:
+ *
+ * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
+ */
 package main
 
 import (
