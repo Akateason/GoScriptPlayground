@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-14 01:31:37
+ * @LastEditTime: 2022-10-14 01:38:33
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -36,8 +36,9 @@ func main() {
 			}
 
 			// 最高tag
+			idx := earth.Str2Int(param1)
 			tag := ggit.LatestTagVersion()
-			tag = earth.UpdateVersionWith(2, tag)
+			tag = earth.UpdateVersionWith(idx, tag)
 			fmt.Printf("new version: %q\n\n", tag)
 			// git 提交
 			earth.UseCommandLine("git add .;git commit -m 'publish " + tag + "';")
