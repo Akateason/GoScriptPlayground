@@ -33,9 +33,7 @@ func main() {
 			tag = earth.UpdateVersionWith(2, tag)
 			fmt.Printf("new version: %q\n\n", tag)
 
-			cmdl0 := "git add ."
-			earth.UseCommandLine(cmdl0)
-			cmdl0 = "git commit -m 'publish " + tag + "'"
+			cmdl0 := "git add .;git commit -m 'publish " + tag + "'"
 			earth.UseCommandLine(cmdl0)
 
 			fmt.Printf("build All start ...\n\n")
