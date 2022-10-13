@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-14 00:13:22
+ * @LastEditTime: 2022-10-14 01:20:16
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"go/build"
 	"goPlay/earth"
+	ggit "goPlay/earth/Git"
 	"log"
 	"os"
 
@@ -28,15 +29,13 @@ func main() {
 		Action: func(ctx *cli.Context) error {
 
 			// 最高tag
-			e0, tag := earth.ExecuteCommandLine("git describe --tags --abbrev=0")
-			cmdl0 := "git add .;git commit -m 'publish " + tag + "';"
-			// cmdl0 +=
-			e0 = earth.UseCommandLine(cmdl0)
-			// git describe --tags --abbrev=0
-			if e0 != nil {
-				fmt.Printf("❌git出错\n")
-				return e0
-			}
+			tag := ggit.LatestTagVersion()
+			tag = earth.UpdateVersionWith(2, tag)
+			fmt.Printf("new version: %q\n\n", tag)
+
+			cmdl0 := "git add .;"
+			cmdl0 += "git commit -m 'publish " + tag + "'"
+			earth.UseCommandLine(cmdl0)
 
 			fmt.Printf("build All start ...\n\n")
 			// get gopath/bin
