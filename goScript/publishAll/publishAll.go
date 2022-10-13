@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-14 01:38:33
+ * @LastEditTime: 2022-10-14 01:45:53
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -15,7 +15,6 @@ import (
 	"fmt"
 	"go/build"
 	"goPlay/earth"
-	ggit "goPlay/earth/Git"
 	"log"
 	"os"
 
@@ -37,9 +36,10 @@ func main() {
 
 			// 最高tag
 			idx := earth.Str2Int(param1)
-			tag := ggit.LatestTagVersion()
+			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")
 			tag = earth.UpdateVersionWith(idx, tag)
 			fmt.Printf("new version: %q\n\n", tag)
+
 			// git 提交
 			earth.UseCommandLine("git add .;git commit -m 'publish " + tag + "';")
 			earth.UseCommandLine("git tag " + tag)
