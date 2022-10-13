@@ -1,3 +1,13 @@
+/*
+ * @Author: Mamba24 akateason@qq.com
+ * @Date: 2022-09-11 15:38:40
+ * @LastEditors: Mamba24 akateason@qq.com
+ * @LastEditTime: 2022-10-14 01:04:23
+ * @FilePath: /go/earth/cocoapod/podspec/podspec.go
+ * @Description:
+ *
+ * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
+ */
 package podspec
 
 import (
@@ -41,20 +51,9 @@ func GetVersion() string {
 func UpdateVersion(index int) string {
 	willUpdateVersionIndex := index
 	oldVersion := GetVersion()
-	vItemList := strings.Split(oldVersion, ".")
 
-	intItem := earth.Str2Int(vItemList[willUpdateVersionIndex])
-	intItem++
-	vItemList[willUpdateVersionIndex] = earth.Int2Str(intItem)
+	newVersion := earth.UpdateVersionWith(willUpdateVersionIndex, oldVersion)
 
-	if willUpdateVersionIndex == 0 {
-		vItemList[1] = "0"
-		vItemList[2] = "0"
-	} else if willUpdateVersionIndex == 1 {
-		vItemList[2] = "0"
-	}
-
-	newVersion := strings.Join(vItemList, ".")
 	result := "\ts.version = '" + newVersion + "'"
 
 	fmt.Printf("success 🚀🚀🚀 new Version is: %q \n\n", newVersion)

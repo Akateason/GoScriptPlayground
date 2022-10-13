@@ -151,3 +151,24 @@ func Str2Int(str string) int {
 	num, _ := strconv.Atoi(str)
 	return num
 }
+
+/**
+ * @description: 更新版本号
+ * @param {int} index 版本的第几位-> 0,1,2,  0是最大版本, 2是最小版本, 默认为2
+ * @param {string} oldTag 老版本号
+ * @return {string} 新版本号
+ */
+func UpdateVersionWith(index int, oldVersion string) string {
+	vItemList := strings.Split(oldVersion, ".")
+	intItem := Str2Int(vItemList[index])
+	intItem++
+	vItemList[index] = Int2Str(intItem)
+	if index == 0 {
+		vItemList[1] = "0"
+		vItemList[2] = "0"
+	} else if index == 1 {
+		vItemList[2] = "0"
+	}
+	newVersion := strings.Join(vItemList, ".")
+	return newVersion
+}
