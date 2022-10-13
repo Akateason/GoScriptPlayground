@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-14 01:45:53
+ * @LastEditTime: 2022-10-14 01:51:00
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -40,13 +40,7 @@ func main() {
 			tag = earth.UpdateVersionWith(idx, tag)
 			fmt.Printf("new version: %q\n\n", tag)
 
-			// git 提交
-			earth.UseCommandLine("git add .;git commit -m 'publish " + tag + "';")
-			earth.UseCommandLine("git tag " + tag)
-			earth.UseCommandLine("git push origin master")
-			earth.UseCommandLine("git push gitee master")
-			earth.UseCommandLine("git push --tags")
-
+			// 开始安装脚本
 			fmt.Printf("build All start ...\n\n")
 			// get gopath/bin
 			goPath := build.Default.GOPATH + "/bin/"
@@ -88,6 +82,13 @@ func main() {
 			earth.UseCommandLine(cmdl2)
 			// End
 			fmt.Printf("install complete🔥🔥🔥\n\n\n")
+
+			// git 提交
+			earth.UseCommandLine("git add .;git commit -m 'publish " + tag + "';")
+			earth.UseCommandLine("git tag " + tag)
+			earth.UseCommandLine("git push origin master")
+			earth.UseCommandLine("git push gitee master")
+			earth.UseCommandLine("git push --tags")
 
 			return nil
 		},
