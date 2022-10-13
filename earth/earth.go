@@ -2,6 +2,7 @@ package earth
 
 import (
 	"bufio"
+
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -13,14 +14,29 @@ import (
 	"sync"
 )
 
-// 调用命令行
+/**
+ * @description: 调用命令行
+ * @param {string} cmd
+ * @return {error} 不关心结果
+ */
 func UseCommandLine(cmd string) error {
+	err, _ := ExecuteCommandLine(cmd)
+	return err
+}
+
+/**
+ * @description: 调用命令行
+ * @param {string} cmd
+ * @return error, string {带执行结果}
+ */
+func ExecuteCommandLine(cmd string) (error, string) {
 	c := exec.Command("bash", "-c", cmd) // mac or linux
 	stdout, err := c.StdoutPipe()
 	if err != nil {
-		return err
+		return err, err.Error()
 	}
 	var wg sync.WaitGroup
+	var resultString string
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
@@ -31,11 +47,12 @@ func UseCommandLine(cmd string) error {
 				return
 			}
 			fmt.Print(readString)
+			resultString += readString
 		}
 	}()
 	err = c.Start()
 	wg.Wait()
-	return err
+	return err, resultString
 }
 
 // readFileFrom 使用ioutil.ReadFile 直接从文件读取到 []byte中

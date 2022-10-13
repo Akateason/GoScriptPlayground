@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-12 01:57:43
+ * @LastEditTime: 2022-10-12 02:54:12
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -24,9 +24,14 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "publishAll",
-		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录.",
+		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录. 自动加版本号.",
 		Action: func(ctx *cli.Context) error {
-			e0 := earth.UseCommandLine("ga .;gcmsg 'publish'")
+			e0, tag := earth.ExecuteCommandLine("git describe --tags --abbrev=0")
+			fmt.Println(tag)
+			// 自动打tag
+
+			e0 = earth.UseCommandLine("ga .;gcmsg 'publish'")
+			// git describe --tags --abbrev=0
 			if e0 != nil {
 				fmt.Printf("❌git出错\n")
 				return e0
