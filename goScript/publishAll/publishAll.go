@@ -2,9 +2,9 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-14 01:51:00
+ * @LastEditTime: 2022-10-15 22:13:27
  * @FilePath: /go/goScript/publishAll/publishAll.go
- * @Description:
+ * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
  */
@@ -17,6 +17,7 @@ import (
 	"goPlay/earth"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -34,11 +35,14 @@ func main() {
 				fmt.Printf("不输入参数, 默认输入2更新最小版本号 \n")
 			}
 
-			// 最高tag
+			// auto plus tag
 			idx := earth.Str2Int(param1)
-			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")
-			tag = earth.UpdateVersionWith(idx, tag)
-			fmt.Printf("new version: %q\n\n", tag)
+			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")						
+			tag = earth.DeleteNewLine(tag)
+			// fmt.Printf("old version was %q\n\n", tag)
+			tag = earth.UpdateVersionWith(idx, tag)						
+			fmt.Printf("new version will be %q\n\n", tag)
+			
 
 			// 开始安装脚本
 			fmt.Printf("build All start ...\n\n")
@@ -58,9 +62,16 @@ func main() {
 			}
 			fmt.Printf("go scripts installed\n")
 
+			// 获取所有go脚本Name列表
+			e1 = earth.UseCommandLine("cd goScript;find . -type d -depth 1 > ../allgo.txt")
+			allgoTxt := earth.ReadFileFrom("allgo.txt")
+			allgoList := strings.Split(allgoTxt, "\n")
+
 			cmdl1 := "cd " + goPath + ";"
-			cmdl1 += "cp -r " + ". " + targetPath + ";"
-			cmdl1 += "rm -f *;"
+			for _, v := range allgoList {
+				cmdl1 += "cp -r " + v + " " + targetPath + ";"
+				cmdl1 += "rm -f " + v + ";"
+			}
 			e1 = earth.UseCommandLine(cmdl1) // do copy go
 			if e1 != nil {
 				fmt.Printf("❌go scripts 迁移出错\n")
@@ -77,14 +88,24 @@ func main() {
 			}
 			fmt.Printf("shell installed\n")
 
+			cmdl = "cd shell; find *.sh -type f"
+			_,allshellTxt := earth.ExecuteCommandLine(cmdl)
+
 			// 把publishAll放到根目录. 更新发布脚本.
 			cmdl2 := "cp -r sender/publishAll ./"
 			earth.UseCommandLine(cmdl2)
 			// End
 			fmt.Printf("install complete🔥🔥🔥\n\n\n")
 
+			// readme update
+			readme := earth.ReadFileFrom("readme.md")
+			readmeList := strings.Split(readme, "# Introduction")
+			allgoTxt = strings.Replace(allgoTxt, "./","",-1)			
+			readme = readmeList[0] + "# Introduction\n```" + allgoTxt + "\n" + allshellTxt + "```"
+			earth.WriteStringToFileFrom("readme.md", readme)
+
 			// git 提交
-			earth.UseCommandLine("git add .;git commit -m 'publish " + tag + "';")
+			earth.UseCommandLine("git add -A .;git commit -m 'publish " + tag + "';")
 			earth.UseCommandLine("git tag " + tag)
 			earth.UseCommandLine("git push origin master")
 			earth.UseCommandLine("git push gitee master")

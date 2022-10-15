@@ -45,13 +45,14 @@ func ExecuteCommandLine(cmd string) (error, string) {
 			readString, err := reader.ReadString('\n')
 			if err != nil || err == io.EOF {
 				return
-			}
-			fmt.Print(readString)
+			}			
+			// log.Printf("read: %q", readString)
 			resultString += readString
 		}
 	}()
 	err = c.Start()
 	wg.Wait()
+	log.Printf("CommandLine result: %q", resultString)
 	return err, resultString
 }
 
@@ -139,6 +140,11 @@ func DeleteQuoteSymbol(source string) string {
 // 删除空格
 func DeleteSpaceSymbol(source string) string {
 	return strings.Replace(source, " ", "", -1)
+}
+
+// 删除换行
+func DeleteNewLine(source string) string {	
+	return strings.Replace(source, "\n", "", -1)	
 }
 
 // int to string
