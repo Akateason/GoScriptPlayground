@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 22:13:27
+ * @LastEditTime: 2022-10-15 22:20:12
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
@@ -101,7 +101,7 @@ func main() {
 			readme := earth.ReadFileFrom("readme.md")
 			readmeList := strings.Split(readme, "# Introduction")
 			allgoTxt = strings.Replace(allgoTxt, "./","",-1)			
-			readme = readmeList[0] + "# Introduction\n```" + allgoTxt + "\n" + allshellTxt + "```"
+			readme = readmeList[0] + "# Introduction\n```\n" + allgoTxt + "\n" + allshellTxt + "```"
 			earth.WriteStringToFileFrom("readme.md", readme)
 
 			// git 提交
