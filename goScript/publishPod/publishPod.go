@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-21 11:55:52
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-14 01:34:08
+ * @LastEditTime: 2022-10-15 19:33:48
  * @FilePath: /go/goScript/publishPod/publishPod.go
  * @Description:
  *
@@ -39,7 +39,7 @@ func main() {
 			gitTag := earth.DeleteQuoteSymbol(newVersion)
 
 			// git提交
-			earth.UseCommandLine("git add .")
+			earth.UseCommandLine("git add -A .")
 			earth.UseCommandLine("git commit -m 'publish : " + gitTag + "'")
 			earth.UseCommandLine("git tag " + gitTag)
 			earth.UseCommandLine("git push gitee master") // 推到gitee 私有库
