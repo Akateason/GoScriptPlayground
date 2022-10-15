@@ -52,7 +52,7 @@ func ExecuteCommandLine(cmd string) (error, string) {
 	}()
 	err = c.Start()
 	wg.Wait()
-	log.Printf("CommandLine result: %q", resultString)
+	log.Printf("%q", resultString)
 	return err, resultString
 }
 
