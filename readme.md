@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-16 20:45:07
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 20:21:34
+ * @LastEditTime: 2022-10-15 21:05:42
  * @FilePath: /go/readme.md
  * @Description: 
  * 
@@ -24,14 +24,15 @@ install complete🔥🔥🔥
 
 # HOW TO USE ??? ?? ?
 ```
-不明白直接在命名后面加" -h",  所有的脚本都支持查看说明.
+不明白直接在脚本后面加" -h",  所有的脚本支持查看说明.
 ```
 
-# Introduction./podV
-./podFileFormat
-./podSpiderWeb
-./publishPod
-./boom
-./pod2Local
-./publishAll
-./podGitAddress
+# Introduction
+podV
+podFileFormat
+podSpiderWeb
+publishPod
+boom
+pod2Local
+publishAll
+podGitAddress
