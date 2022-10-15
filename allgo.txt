@@ -1,0 +1,8 @@
+./podV
+./podFileFormat
+./podSpiderWeb
+./publishPod
+./boom
+./pod2Local
+./publishAll
+./podGitAddress

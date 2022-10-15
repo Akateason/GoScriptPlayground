@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-11 01:03:42
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-13 23:44:25
+ * @LastEditTime: 2022-10-15 20:10:20
  * @FilePath: /go/goScript/podGitAddress/podGitAddress.go
  * @Description: 查pod远程仓库地址
  *

@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 19:32:22
+ * @LastEditTime: 2022-10-15 20:57:25
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -17,6 +17,7 @@ import (
 	"goPlay/earth"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -58,9 +59,16 @@ func main() {
 			}
 			fmt.Printf("go scripts installed\n")
 
+			// 获取所有go脚本Name列表
+			e1 = earth.UseCommandLine("cd goScript;find . -type d -depth 1 > ../allgo.txt")
+			allgoTxt := earth.ReadFileFrom("allgo.txt")
+			allgoList := strings.Split(allgoTxt, "\n")
+
 			cmdl1 := "cd " + goPath + ";"
-			cmdl1 += "cp -r " + ". " + targetPath + ";"
-			cmdl1 += "rm -f *;"
+			for _, v := range allgoList {
+				cmdl1 += "cp -r " + v + " " + targetPath + ";"
+				cmdl1 += "rm -f " + v + ";"
+			}
 			e1 = earth.UseCommandLine(cmdl1) // do copy go
 			if e1 != nil {
 				fmt.Printf("❌go scripts 迁移出错\n")
@@ -82,6 +90,12 @@ func main() {
 			earth.UseCommandLine(cmdl2)
 			// End
 			fmt.Printf("install complete🔥🔥🔥\n\n\n")
+
+			// readme update
+			readme := earth.ReadFileFrom("readme.md")
+			readmeList := strings.Split(readme, "# Introduction")
+			readme = readmeList[0] + "# Introduction" + allgoTxt
+			earth.WriteStringToFileFrom("readme.md", readme)
 
 			// git 提交
 			earth.UseCommandLine("git add -A .;git commit -m 'publish " + tag + "';")
