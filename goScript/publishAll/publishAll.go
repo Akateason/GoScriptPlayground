@@ -2,9 +2,9 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 21:35:21
+ * @LastEditTime: 2022-10-15 21:42:23
  * @FilePath: /go/goScript/publishAll/publishAll.go
- * @Description:
+ * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
  */
