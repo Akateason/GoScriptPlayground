@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 21:04:25
+ * @LastEditTime: 2022-10-15 21:35:21
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description:
  *
@@ -85,6 +85,9 @@ func main() {
 			}
 			fmt.Printf("shell installed\n")
 
+			cmdl = "cd shell; find *.sh -type f"
+			_,allshellTxt := earth.ExecuteCommandLine(cmdl)
+
 			// 把publishAll放到根目录. 更新发布脚本.
 			cmdl2 := "cp -r sender/publishAll ./"
 			earth.UseCommandLine(cmdl2)
@@ -95,7 +98,7 @@ func main() {
 			readme := earth.ReadFileFrom("readme.md")
 			readmeList := strings.Split(readme, "# Introduction")
 			allgoTxt = strings.Replace(allgoTxt, "./","",-1)			
-			readme = readmeList[0] + "# Introduction\n" + allgoTxt
+			readme = readmeList[0] + "# Introduction\n```" + allgoTxt + "\n" + allshellTxt + "```"
 			earth.WriteStringToFileFrom("readme.md", readme)
 
 			// git 提交
