@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-16 21:07:42
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 21:44:02
+ * @LastEditTime: 2022-10-15 22:12:13
  * @FilePath: /go/goScript/boom/boom.go
  * @Description: 单元测试
  *
@@ -11,11 +11,11 @@
 package main
 
 import (
-	"fmt"
 	"goPlay/earth"
-	podfileLock "goPlay/earth/cocoapod/podlock"
+	"fmt"	
 	"log"
 	"os"
+	// "strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -29,9 +29,14 @@ func main() {
 			// get Arguments 参数
 			fmt.Printf("单元测试~~~args === %q\n", ctx.Args())
 			// fmt.Printf("boom! I say %q \n", ctx.Args().Get(0))
-			// earth.UseCommandLine("cd ../../..;ls -l")
-
 			
+			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")						
+			tag = earth.DeleteNewLine(tag)
+			// fmt.Printf("old version was %q\n\n", tag)
+			tag = earth.UpdateVersionWith(2, tag)						
+			fmt.Printf("new version will be %q\n\n", tag)
+			
+
 
 			return nil
 		},

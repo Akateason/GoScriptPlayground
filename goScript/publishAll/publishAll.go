@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 21:42:23
+ * @LastEditTime: 2022-10-15 22:13:27
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
@@ -35,11 +35,14 @@ func main() {
 				fmt.Printf("不输入参数, 默认输入2更新最小版本号 \n")
 			}
 
-			// 最高tag
+			// auto plus tag
 			idx := earth.Str2Int(param1)
-			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")
-			tag = earth.UpdateVersionWith(idx, tag)
-			fmt.Printf("new version: %q\n\n", tag)
+			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")						
+			tag = earth.DeleteNewLine(tag)
+			// fmt.Printf("old version was %q\n\n", tag)
+			tag = earth.UpdateVersionWith(idx, tag)						
+			fmt.Printf("new version will be %q\n\n", tag)
+			
 
 			// 开始安装脚本
 			fmt.Printf("build All start ...\n\n")
