@@ -36,10 +36,12 @@ target "NIOSocial_Example" do
  :git => "git@git.nevint.com:ios_dd/mprouter.git",
  :tag => "1.2.2"
 
- pod "MPApi", :git => "git@git.nevint.com:ios_dd/mpapi.git",
+ pod "MPApi", 
+ :git => "git@git.nevint.com:ios_dd/mpapi.git",
  :tag => "0.1.22"
 
- pod "MPBusinessComponent/CN", "0.5.20"
+ pod "MPBusinessComponent/CN", 
+ "0.5.20"
 
  pod "MPSwiftUI",
  :git => "git@git.nevint.com:ios_dd/mpswiftui.git",

@@ -12,8 +12,8 @@ target "NIOSocial_Example" do
  pod "MPUIKit", :subspecs => ["NIOUIKitDeprecated", "ALLSubSpecs"], :git => "git@git.nevint.com:ios_dd/mpuikit.git", :commit => '74e2d588b40d0a57344fc330b586de538cacf525' # textview有一个ui调整
  pod "MPBusinessModel", :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud"], :git => "git@git.nevint.com:ios_dd/mpbusinessmodel.git", :tag => "0.4.17"
  pod "MPRouter", :git => "git@git.nevint.com:ios_dd/mprouter.git", :tag => "1.2.2"
- pod "MPApi", :git => "git@git.nevint.com:ios_dd/mpapi.git", :tag => "0.1.22"
- pod "MPBusinessComponent/CN", "0.5.20"
+ pod "MPApi",  :git => "git@git.nevint.com:ios_dd/mpapi.git", :tag => "0.1.22"
+ pod "MPBusinessComponent/CN",  "0.5.20"
  pod "MPSwiftUI", :git => "git@git.nevint.com:ios_dd/mpswiftui.git", :tag => '0.1.3'
  pod "MPLog", "~> 0.0.12"
  pod "MPLocale", :git => "git@git.nevint.com:ios_dd/mplocale.git", :tag => "0.0.22"

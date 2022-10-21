@@ -26,7 +26,7 @@ func main() {
 			fmt.Printf("Podfile切本地. \n")
 			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
 
-			// TODO:
+			// TODO: 这是抄的podfileformat
 
 			// newContent := podfile.ExportNewPodfile()
 			// newPath := "format_副本_pod_file"
