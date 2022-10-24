@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-24 23:50:14
+ * @LastEditTime: 2022-10-24 23:54:34
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
@@ -71,7 +71,7 @@ func main() {
 
 			// 获取所有go脚本Name列表
 			e1 = earth.UseCommandLine("cd " + pwd + ";" + "cd goScript;find . -type d -depth 1 > ../allgo.txt")
-			allgoTxt := earth.ReadFileFrom("allgo.txt")
+			allgoTxt := earth.ReadFileFrom("cd " + pwd + ";" + "allgo.txt")
 			allgoList := strings.Split(allgoTxt, "\n")
 
 			cmdl1 := "cd " + goPath + ";"
