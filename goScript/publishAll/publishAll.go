@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 22:13:27
+ * @LastEditTime: 2022-10-24 23:37:18
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
@@ -25,24 +25,30 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "publishAll",
-		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录. 自动加版本号. param(更新版本号第几位 -> 0,1,2)",
+		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录. 自动加版本号. \nparam1(根目录绝对路径)\nparam2(更新版本号第几位 -> 0,1,2 可选, 默认=2)",
 		Action: func(ctx *cli.Context) error {
+			fmt.Println(ctx.App.UsageText)
+
+			fmt.Printf("检查输入参数: %q \n", ctx.Args()) // Arguments 参数
 			fmt.Printf("🚀所有脚本安装与发版 \n param(更新版本号第几位 -> 0,1,2) \n")
-			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
-			var param1 = ctx.Args().Get(0)
-			if param1 == "" {
-				param1 = "2" // 默认index==2, 默认更新最小版本号
+
+			if ctx.Args() == nil {
+				fmt.Printf("❌❌❌❌❌ 必须传参. 你不会用 \n")
+				return nil
+			}
+			var param2 = ctx.Args().Get(1)
+			if param2 == "" {
+				param2 = "2" // 默认index==2, 默认更新最小版本号
 				fmt.Printf("不输入参数, 默认输入2更新最小版本号 \n")
 			}
 
 			// auto plus tag
-			idx := earth.Str2Int(param1)
-			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")						
+			idx := earth.Str2Int(param2)
+			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")
 			tag = earth.DeleteNewLine(tag)
 			// fmt.Printf("old version was %q\n\n", tag)
-			tag = earth.UpdateVersionWith(idx, tag)						
+			tag = earth.UpdateVersionWith(idx, tag)
 			fmt.Printf("new version will be %q\n\n", tag)
-			
 
 			// 开始安装脚本
 			fmt.Printf("build All start ...\n\n")
@@ -89,7 +95,7 @@ func main() {
 			fmt.Printf("shell installed\n")
 
 			cmdl = "cd shell; find *.sh -type f"
-			_,allshellTxt := earth.ExecuteCommandLine(cmdl)
+			_, allshellTxt := earth.ExecuteCommandLine(cmdl)
 
 			// 把publishAll放到根目录. 更新发布脚本.
 			cmdl2 := "cp -r sender/publishAll ./"
@@ -100,7 +106,7 @@ func main() {
 			// readme update
 			readme := earth.ReadFileFrom("readme.md")
 			readmeList := strings.Split(readme, "# Introduction")
-			allgoTxt = strings.Replace(allgoTxt, "./","",-1)			
+			allgoTxt = strings.Replace(allgoTxt, "./", "", -1)
 			readme = readmeList[0] + "# Introduction\n```" + allgoTxt + "\n" + allshellTxt + "```"
 			earth.WriteStringToFileFrom("readme.md", readme)
 
