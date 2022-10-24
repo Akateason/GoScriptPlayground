@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-21 21:59:34
+ * @LastEditTime: 2022-10-21 22:06:23
  * @FilePath: /go/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -85,7 +85,7 @@ func ExportNewPodfile() string {
 	for _, value := range resultList {
 		oldStr := findSourceLineWith(value, oldPodfile)
 		fmt.Println("搜索" + value + "\n")
-		fmt.Println("得出" + oldStr + "\n")
+		fmt.Println("得出" + oldStr + "\n--------\n")
 		if len(oldStr) > 0 {
 			oldPodfile = strings.Replace(oldPodfile, oldStr, value, 1)
 		}
