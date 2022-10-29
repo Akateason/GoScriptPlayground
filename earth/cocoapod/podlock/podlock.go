@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-20 09:12:02
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-11 00:04:38
+ * @LastEditTime: 2022-10-24 22:20:41
  * @FilePath: /go/earth/cocoapod/podlock/podlock.go
  * @Description: handle podfile.lock
  *
@@ -51,19 +51,34 @@ func Analysis() []string {
  * @description: 获取每个pod的数组.
  * @return {sourcelist}
  */
-func FetchEverySpecRepos() []string {
-	var resultList []string
+func FetchEverySpecRepos() map[string]interface{} {
+	resultMap := make(map[string]interface{})
+	var tmpList []string = []string{}
+	var currentKey string
 	specReposResult := fetchSection("SPEC REPOS:")
 	sourceList := strings.Split(specReposResult, "\n")
 	for _, v := range sourceList {
+
+		if strings.HasPrefix(v, "SPEC REPOS:") {
+			continue
+		}
+
 		v = earth.DeleteSpaceSymbol(v)
 		v = earth.DeleteQuoteSymbol(v)
-		if strings.HasPrefix(v, "-") {
+
+		if strings.HasSuffix(v, ":") { // this is repo
+			currentKey = v
+			tmpList = []string{}
+			resultMap[currentKey] = tmpList
+		}
+
+		if strings.HasPrefix(v, "-") { // this is pod
 			v = strings.TrimPrefix(v, "-")
-			resultList = append(resultList, v)
+			tmpList = append(tmpList, v)
+			resultMap[currentKey] = tmpList
 		}
 	}
-	return resultList
+	return resultMap
 }
 
 // 根据name查找对应pod的版本

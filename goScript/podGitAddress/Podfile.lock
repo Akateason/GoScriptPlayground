@@ -112,38 +112,59 @@ DEPENDENCIES:
   - XTlib/CustomUIs
 
 SPEC REPOS:
+  "git@git.nevint.com:ios_dd/niopodrepo.git":
+    - FDAppKit
+    - MPBusinessComponent
+    - MPCachePreview
+    - MPFoundation
+    - MPHybrid
+    - MPLog
+    - MPRouter
+    - MPSecurity
+    - NIOAppUIKit
+    - NIOMediator
+    - SwiftLog
+    - TXUGCPublishKit
+  https://github.com/volcengine/volcengine-specs.git:
+    - OneKit
+    - RangersAPM
+    - RARegisterKit
   trunk:
-    - AFNetworking
-    - CHTCollectionViewWaterfallLayout
-    - CocoaLumberjack
-    - FDFullscreenPopGesture
-    - FMDB
-    - HandyJSON
-    - iosMath
-    - IQKeyboardManager
-    - Masonry
+    - Alamofire
+    - atlantis-proxyman
+    - Bugly
+    - CNIOBoringSSL
+    - CryptoSwift
+    - GCDWebServer
+    - HappyDNS
+    - KeychainAccess
+    - libwebp
+    - LookinServer
+    - lottie-ios
     - MJRefresh
-    - ReactiveObjC
-    - RSKImageCropper
+    - NTESVerifyCode
+    - OHHTTPStubs
+    - PhoneNumberKit
+    - Protobuf
+    - QCloudCore
+    - QCloudCOSXML
+    - Qiniu
     - RxCocoa
-    - RxGesture
     - RxRelay
     - RxSwift
     - SDWebImage
+    - SDWebImageSwiftUI
+    - SDWebImageWebPCoder
+    - SensorsAdvertising
+    - SensorsAnalyticsSDK
     - SnapKit
-    - SSZipArchive
-    - SVProgressHUD
-    - UIFontWDCustomLoader
-    - "UITableView+FDTemplateLayoutCell"
-    - Valet
-    - XTBase
-    - XTColor
-    - XTIAP
-    - XTlib
-    - XTReq
-    - XTRouter
-    - XTTable
-    - YYModel
+    - swift-markdown
+    - SwiftyJSON
+    - TXIMSDK_Plus_iOS
+    - TXLiteAVSDK_Professional
+    - WechatOpenSDK
+    - Weibo_SDK
+    - ZIPFoundation
 
 EXTERNAL SOURCES:
   XTFMDB:

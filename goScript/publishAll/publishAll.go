@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 22:20:12
+ * @LastEditTime: 2022-10-24 23:58:20
  * @FilePath: /go/goScript/publishAll/publishAll.go
  * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
@@ -25,24 +25,33 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "publishAll",
-		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录. 自动加版本号. param(更新版本号第几位 -> 0,1,2)",
+		Usage: "我发布我自己. 编译go为二进制, 安装所有脚本到sender目录. 自动加版本号. \nparam1(根目录绝对路径)\nparam2(更新版本号第几位 -> 0,1,2 可选, 默认=2)",
 		Action: func(ctx *cli.Context) error {
-			fmt.Printf("🚀所有脚本安装与发版 \n param(更新版本号第几位 -> 0,1,2) \n")
-			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
+			fmt.Println(ctx.App.Usage)
+
+			fmt.Printf("检查输入参数: %q \n", ctx.Args()) // Arguments 参数
+
+			if ctx.Args().Len() == 0 {
+				fmt.Printf("❌❌❌❌❌ 必须传参. 你不会用 \n")
+				return nil
+			}
+
 			var param1 = ctx.Args().Get(0)
-			if param1 == "" {
-				param1 = "2" // 默认index==2, 默认更新最小版本号
-				fmt.Printf("不输入参数, 默认输入2更新最小版本号 \n")
+			var pwd = param1 // 根目录路径
+
+			var param2 = ctx.Args().Get(1)
+			if param2 == "" {
+				param2 = "2" // 默认index==2, 默认更新最小版本号
+				fmt.Printf("param 2, 不输入参数, 默认输入2更新最小版本号 \n")
 			}
 
 			// auto plus tag
-			idx := earth.Str2Int(param1)
-			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")						
+			idx := earth.Str2Int(param2)
+			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")
 			tag = earth.DeleteNewLine(tag)
 			// fmt.Printf("old version was %q\n\n", tag)
-			tag = earth.UpdateVersionWith(idx, tag)						
+			tag = earth.UpdateVersionWith(idx, tag)
 			fmt.Printf("new version will be %q\n\n", tag)
-			
 
 			// 开始安装脚本
 			fmt.Printf("build All start ...\n\n")
@@ -50,12 +59,10 @@ func main() {
 			goPath := build.Default.GOPATH + "/bin/"
 
 			// target path
-			pwd, _ := os.Getwd()
-
 			targetPath := pwd + "/sender/"
 
 			// 对每个goScript文件夹进行 go install
-			e1 := earth.UseCommandLine("cd goScript;find . -type d -depth 1 -exec go install {} +")
+			e1 := earth.UseCommandLine("cd " + pwd + ";" + "cd goScript;find . -type d -depth 1 -exec go install {} +")
 			if e1 != nil {
 				fmt.Printf("❌go scripts 出错\n")
 				return e1
@@ -63,8 +70,8 @@ func main() {
 			fmt.Printf("go scripts installed\n")
 
 			// 获取所有go脚本Name列表
-			e1 = earth.UseCommandLine("cd goScript;find . -type d -depth 1 > ../allgo.txt")
-			allgoTxt := earth.ReadFileFrom("allgo.txt")
+			e1 = earth.UseCommandLine("cd " + pwd + ";" + "cd goScript;find . -type d -depth 1 > ../allgo.txt")
+			allgoTxt := earth.ReadFileFrom(pwd + "/allgo.txt")
 			allgoList := strings.Split(allgoTxt, "\n")
 
 			cmdl1 := "cd " + goPath + ";"
@@ -79,7 +86,7 @@ func main() {
 			}
 
 			// 安装shell脚本
-			cmdl := "cp -r shell/. " + targetPath
+			cmdl := "cd " + pwd + ";" + "cp -r shell/. " + targetPath
 			// fmt.Printf(cmdl + "\n")
 			e2 := earth.UseCommandLine(cmdl) // do copy shell
 			if e2 != nil {
@@ -88,28 +95,28 @@ func main() {
 			}
 			fmt.Printf("shell installed\n")
 
-			cmdl = "cd shell; find *.sh -type f"
-			_,allshellTxt := earth.ExecuteCommandLine(cmdl)
+			cmdl = "cd " + pwd + ";" + "cd shell; find *.sh -type f"
+			_, allshellTxt := earth.ExecuteCommandLine(cmdl)
 
 			// 把publishAll放到根目录. 更新发布脚本.
-			cmdl2 := "cp -r sender/publishAll ./"
+			cmdl2 := "cd " + pwd + ";" + "cp -r sender/publishAll ./"
 			earth.UseCommandLine(cmdl2)
 			// End
 			fmt.Printf("install complete🔥🔥🔥\n\n\n")
 
 			// readme update
-			readme := earth.ReadFileFrom("readme.md")
+			readme := earth.ReadFileFrom(pwd + "/readme.md")
 			readmeList := strings.Split(readme, "# Introduction")
-			allgoTxt = strings.Replace(allgoTxt, "./","",-1)			
-			readme = readmeList[0] + "# Introduction\n```\n" + allgoTxt + "\n" + allshellTxt + "```"
-			earth.WriteStringToFileFrom("readme.md", readme)
+			allgoTxt = strings.Replace(allgoTxt, "./", "", -1)
+			readme = readmeList[0] + "# Introduction\n```" + allgoTxt + "\n" + allshellTxt + "```" + "\n123"
+			earth.WriteStringToFileFrom(pwd+"/readme.md", readme)
 
 			// git 提交
-			earth.UseCommandLine("git add -A .;git commit -m 'publish " + tag + "';")
-			earth.UseCommandLine("git tag " + tag)
-			earth.UseCommandLine("git push origin master")
-			earth.UseCommandLine("git push gitee master")
-			earth.UseCommandLine("git push --tags")
+			earth.UseCommandLine("cd " + pwd + ";" + "git add -A .;git commit -m 'publish " + tag + "';")
+			earth.UseCommandLine("cd " + pwd + ";" + "git tag " + tag)
+			earth.UseCommandLine("cd " + pwd + ";" + "git push origin master")
+			earth.UseCommandLine("cd " + pwd + ";" + "git push gitee master")
+			earth.UseCommandLine("cd " + pwd + ";" + "git push --tags")
 
 			return nil
 		},
