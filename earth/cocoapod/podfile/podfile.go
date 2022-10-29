@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-21 22:06:23
+ * @LastEditTime: 2022-10-29 15:00:45
  * @FilePath: /go/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -42,7 +42,7 @@ func FetchContent() string {
 // 忽略 #注释
 // 2.
 // 根据pod内容分组
-func Analysis() []string {
+func Analysis(needPrint bool) []string {
 	fmt.Println("解析开始, 以🐷🐶结尾")
 	var resultList []string
 	podfileContent := FetchContent()
@@ -69,8 +69,10 @@ func Analysis() []string {
 	}
 
 	// 打印解析结果
-	for _, value := range resultList {
-		fmt.Println(value + "🐷🐶")
+	if needPrint {
+		for _, value := range resultList {
+			fmt.Println(value + "🐷🐶")
+		}
 	}
 
 	return resultList
@@ -81,7 +83,7 @@ func Analysis() []string {
 func ExportNewPodfile() string {
 	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
 	oldPodfile := FetchContent()
-	resultList := Analysis()
+	resultList := Analysis(true)
 	for _, value := range resultList {
 		oldStr := findSourceLineWith(value, oldPodfile)
 		fmt.Println("搜索" + value + "\n")
@@ -114,7 +116,7 @@ const kLocalPath = "localPath"
 // const kVerison = "version"
 
 // 嵌套字典 声明
-type t_mapType map[string]string
+// type Type_str_str_map map[string]string
 
 // pod来源状态.
 // 只能是 kLocalPath,
@@ -125,38 +127,104 @@ const kPodResourceState = "state"
 
   - @description: 将pod按照本地配置进行处理. 并返回
 
-  - @param {[]string} podList 数据源
-
-  - @param localPathMap 一个字典套字典, 映射表
+  - @param localPathMap 一个字典套字典, 映射表. 可以是任何pod后的内容.
     localPathMap =
     [podName : [originContent:string!, localPath:string?, remotePath:string?, branch:string?, commitHash:string?]]
 
-  - @param state 待改的状态 localPath或branch或commitHash
-
-  - @return {podList, localPathMap}
+  - @return { HistryMapMap返回保留更改之前的信息. }
 */
-func makeOnePodLinkToMapConfigure(podList []string, localPathMap map[string]t_mapType, state string) ([]string, map[string]t_mapType) {
+func ConfigPodfileWithMap(soureMap map[string]string) map[string]string {
+	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
+	oldPodfile := FetchContent()
+	analsisList := Analysis(false)
+	// loop source map
+	for podNameKey, contentValue := range soureMap {
+		// fmt.Println(podNameKey)
+		// fmt.Println(contentValue)
 
-	// loop map
-	for podNameKey, contentMap := range localPathMap {
-
-		for _, podValue := range podList {
+		for _, podValue := range analsisList {
 			if strings.Contains(podValue, "\""+podNameKey+"\"") ||
 				strings.Contains(podValue, "'"+podNameKey+"'") {
 				// podfile is matched !
 				fmt.Println(podNameKey + " - is matched !🐶")
+				fmt.Println("--- " + podValue)
 
-				contentMap[kOriginContent] = podValue
+				oldStr := findSourceLineWith(podValue, oldPodfile)
+				fmt.Println("搜索" + podValue)
+				fmt.Println("得出" + oldStr + "\n--------\n")
+				if len(oldStr) > 0 {
+					newPodValue := makeNewPodItemToLocalPath(podValue, contentValue) // to local path
+					oldPodfile = strings.Replace(oldPodfile, oldStr, newPodValue, 1)
+				}
+
+				// contentMap[kOriginContent] = podValue
 			}
 		}
-
 	}
 
-	return podList, localPathMap
+	fmt.Println(oldPodfile)
+	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
+	return soureMap
 }
 
 // -------------------------------------------------- //
 // -- Private
+
+/*
+*
+  - @description: 制作 拼接本地podfile的单行.
+  - @param {podItemSource} 类似
+    pod "MPDebugTools",
+    :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud"],
+    :configurations => ['Debug','Test'],
+    :git=>"git@git.nevint.com:ios_dd/mpdebugtools.git", :commit=>'2fada45c9d31d8fcb2669773d3dcd747d74deb8c'
+  - @param {*} appendValue 逗号后面的东西. "../../snapkit"
+  - @return
+    pod "MPDebugTools",
+    :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud"],
+    :configurations => ['Debug','Test'], :path=>"../../snapkit"
+*/
+func makeNewPodItemToLocalPath(podItemSource string, appendValue string) string {
+	var podPrefix string
+	if strings.Contains(podItemSource, ",") {
+		podItems := strings.Split(podItemSource, ",")
+		var newItems []string
+		for _, maohaoItem := range podItems { //
+			if isAbsolutelyNeedItem(maohaoItem) {
+				newItems = append(newItems, maohaoItem)
+			}
+		}
+		podPrefix = strings.Join(newItems, ",")
+	} else {
+		podPrefix = podItemSource
+	}
+	return podPrefix + ", :path=>\"" + appendValue + "\"\n"
+}
+
+// 切pod元素.  判断是否应该保留逗号分割的元素
+func isAbsolutelyNeedItem(source string) bool {
+	if strings.Contains(source, "pod ") {
+		return true
+	}
+	source = earth.DeleteNewLine(source)
+	source = earth.DeleteSpaceSymbol(source)
+	if strings.Contains(source, ":subspecs") {
+		return true
+	}
+	if strings.Contains(source, ":configurations") {
+		return true
+	}
+	if strings.Contains(source, ":") { // 保留其他带冒号item
+		return false
+	}
+	if (strings.HasPrefix(source, "'") && strings.HasSuffix(source, "'")) ||
+		(strings.HasPrefix(source, "\"") && strings.HasSuffix(source, "\"")) {
+		// 版本号去掉
+		return false
+	}
+	return true
+}
+
 // 字符串全部都是空格?
 func isAllWhiteSpace(source string) bool {
 	source = earth.DeleteSpaceSymbol(source)
@@ -243,7 +311,7 @@ func findSourceLineWith(value string, podfileSource string) string {
 		}
 	} else {
 		// 纯 pod "file". 直接返回
-		resultString = ""
+		resultString = value
 	}
 	return resultString
 }

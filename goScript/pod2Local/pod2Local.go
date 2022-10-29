@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-09 01:40:43
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-10 23:24:02
+ * @LastEditTime: 2022-10-29 15:03:21
  * @FilePath: /go/goScript/pod2Local/pod2Local.go
  * @Description: WIP 切换本地
  *
@@ -12,6 +12,7 @@ package main
 
 import (
 	"fmt"
+	"goPlay/earth/cocoapod/podfile"
 	"log"
 	"os"
 
@@ -26,9 +27,16 @@ func main() {
 			fmt.Printf("Podfile切本地. \n")
 			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
 
-			// TODO: 这是抄的podfileformat
+			// TODO: 文件逻辑
+			tmpMap := map[string]string{
+				"MPCache":      "../MPCache",
+				"SnapKit":      "../SnapKit",
+				"MPDebugTools": "../MPDebugTools",
+			}
+			fmt.Printf("%q", tmpMap)
 
-			// newContent := podfile.ExportNewPodfile()
+			whatMap := podfile.ConfigPodfileWithMap(tmpMap)
+			fmt.Printf("%q", whatMap)
 			// newPath := "format_副本_pod_file"
 			// earth.UseCommandLine("touch " + newPath)
 			// earth.WriteStringToFileFrom(newPath, newContent)
