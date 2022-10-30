@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-29 15:00:45
+ * @LastEditTime: 2022-10-30 22:02:53
  * @FilePath: /go/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"goPlay/earth"
 	"strings"
+	"time"
 )
 
 // 获取对应PodFile的文件名
@@ -22,7 +23,7 @@ func GetPodfileFileName() string {
 	files, _ = earth.GetAllFilePaths(".", files)
 	for i := 0; i < len(files); i++ {
 		fileName := files[i]
-		if strings.Contains(fileName, "Podfile") {
+		if fileName == "./Podfile" {
 			return fileName
 		}
 	}
@@ -43,7 +44,6 @@ func FetchContent() string {
 // 2.
 // 根据pod内容分组
 func Analysis(needPrint bool) []string {
-	fmt.Println("解析开始, 以🐷🐶结尾")
 	var resultList []string
 	podfileContent := FetchContent()
 	sourceList := strings.Split(podfileContent, "\n")
@@ -59,17 +59,23 @@ func Analysis(needPrint bool) []string {
 		}
 		// 打印原始解析
 		// fmt.Println("Index =", index, "Value =", value)
+
 		if firstWordIsPod(value) {
 			resultList = append(resultList, value)
 		} else {
-			lastValue := resultList[len(resultList)-1]
-			lastValue += value
-			resultList[len(resultList)-1] = lastValue
+			// fmt.Println("%q", len(resultList))
+			// fmt.Println(resultList)
+			if len(resultList) > 0 {
+				lastValue := resultList[len(resultList)-1]
+				lastValue += value
+				resultList[len(resultList)-1] = lastValue
+			}
 		}
 	}
 
 	// 打印解析结果
 	if needPrint {
+		fmt.Println("解析开始")
 		for _, value := range resultList {
 			fmt.Println(value + "🐷🐶")
 		}
@@ -131,12 +137,18 @@ const kPodResourceState = "state"
     localPathMap =
     [podName : [originContent:string!, localPath:string?, remotePath:string?, branch:string?, commitHash:string?]]
 
-  - @return { HistryMapMap返回保留更改之前的信息. }
+  - @return {
+    HistryMapMap返回保留更改之前的信息.
+    }
 */
-func ConfigPodfileWithMap(soureMap map[string]string) map[string]string {
+func ConfigPodfileWithMap(soureMap map[string]interface{}) map[string]interface{} {
 	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
-	oldPodfile := FetchContent()
+	newPodfile := FetchContent()
+
 	analsisList := Analysis(false)
+
+	var historyMap map[string]interface{} = make(map[string]interface{})
+
 	// loop source map
 	for podNameKey, contentValue := range soureMap {
 		// fmt.Println(podNameKey)
@@ -149,26 +161,70 @@ func ConfigPodfileWithMap(soureMap map[string]string) map[string]string {
 				fmt.Println(podNameKey + " - is matched !🐶")
 				fmt.Println("--- " + podValue)
 
-				oldStr := findSourceLineWith(podValue, oldPodfile)
+				oldStr := findSourceLineWith(podValue, newPodfile)
+
 				fmt.Println("搜索" + podValue)
 				fmt.Println("得出" + oldStr + "\n--------\n")
+
 				if len(oldStr) > 0 {
-					newPodValue := makeNewPodItemToLocalPath(podValue, contentValue) // to local path
-					oldPodfile = strings.Replace(oldPodfile, oldStr, newPodValue, 1)
+					newPodValue := makeNewPodItemToLocalPath(podValue, contentValue.(string)) // to local path
+					newPodfile = strings.Replace(newPodfile, oldStr, newPodValue, 1)
+
+					historyMap[podNameKey] = oldStr // 记录上一次的历史
 				}
 
-				// contentMap[kOriginContent] = podValue
 			}
 		}
 	}
 
-	fmt.Println(oldPodfile)
-	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
-	return soureMap
+	if len(historyMap) > 0 {
+		fmt.Println(newPodfile) // 新podfile
+		fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
+
+		// output newpodfile, and save old podfile
+		oldPodfile := FetchContent()
+		earth.UseCommandLine("touch " + "oldPodfile")
+		earth.WriteStringToFileFrom("oldPodfile", oldPodfile)
+
+		earth.WriteStringToFileFrom("Podfile", newPodfile)
+
+		// for k, v := range historyMap {
+		// 	fmt.Printf("key: %q\n", k)
+		// 	fmt.Printf("val: %q\n", v)
+		// }
+
+		// make history
+		timeStr := time.Now().Format("20220101_11:11:01")
+		newHistroyPath := "before_pod2Local" + timeStr
+		earth.UseCommandLine("touch " + newHistroyPath)
+		jsonStr := earth.MapToJsonStr(historyMap)
+		earth.WriteStringToFileFrom(newHistroyPath, jsonStr)
+
+	} else {
+		fmt.Println("pod2local isMatched. or failed. ❌")
+	}
+
+	return historyMap
 }
 
 // -------------------------------------------------- //
 // -- Private
+
+/**
+ * @description: 判断两个pod item 是否相等. (格式化. 去掉空格和换行去匹配string.equal .)
+ * @param {string} item1
+ * @param {string} item2
+ * @return {*}
+ */
+func isSamePodItem(item1 string, item2 string) bool {
+	item1 = earth.DeleteNewLine(item1)
+	item1 = earth.DeleteSpaceSymbol(item1)
+
+	item2 = earth.DeleteNewLine(item2)
+	item2 = earth.DeleteSpaceSymbol(item2)
+
+	return item1 == item2
+}
 
 /*
 *

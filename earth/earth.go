@@ -2,6 +2,7 @@ package earth
 
 import (
 	"bufio"
+	"encoding/json"
 
 	"fmt"
 	"io"
@@ -179,4 +180,29 @@ func UpdateVersionWith(index int, oldVersion string) string {
 	}
 	newVersion := strings.Join(vItemList, ".")
 	return newVersion
+}
+
+/**
+ * @description: map to jsonstring
+ * @param {map[string]interface{}} param
+ * @return {*}
+ */
+func MapToJsonStr(param map[string]interface{}) string {
+	dataType, _ := json.Marshal(param)
+	dataString := string(dataType)
+	return dataString
+}
+
+/**
+ * @description: jsonstring to map
+ * @param {string} str
+ * @return {*}
+ */
+func JsonStrToMap(str string) map[string]interface{} {
+	var tempMap map[string]interface{}
+	err := json.Unmarshal([]byte(str), &tempMap)
+	if err != nil {
+		panic(err)
+	}
+	return tempMap
 }

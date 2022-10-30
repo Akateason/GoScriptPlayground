@@ -9,11 +9,14 @@ target "NIOSocial_Example" do
  pod 'LookinServer', :configurations => ['Debug']
  
 
- pod "MPCache", :path=>"../MPCache"
+ pod "MPCache"
 
- pod 'SnapKit', :path=>"../SnapKit"
+ pod 'SnapKit', "1.2.1"
 
- pod "MPDebugTools",   :subspecs => ["Vehicle","AntiFraud"],  :configurations => ['Debug','Test'], :path=>"../MPDebugTools"
+ pod "MPDebugTools",  
+ :subspecs => ["Vehicle","AntiFraud"], 
+ :configurations => ['Debug','Test'], 
+ :git => "git@git.nevint.com:ios_dd/mplocale.git", :tag => "0.0.22"
 
  pod "MPFoundation"
  pod "NIOApiProviders", :git => "git@git.nevint.com:ios_dd/nioapiproviders.git", :tag => "0.1.12"
