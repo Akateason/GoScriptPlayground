@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-16 20:45:07
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-31 23:28:53
+ * @LastEditTime: 2022-10-31 23:31:40
  * @FilePath: /GoScriptPlayground/readme.md
  * @Description: 
  * 
@@ -13,7 +13,7 @@
 
 ```
 cd 到项目根目录
-./installAll.sh
+sudo ./installAll.sh
  ```
  ->
  ```
@@ -38,4 +38,3 @@ pi_only.sh
 pod_trunk_push.sh
 pu_only.sh
 ```
-123
