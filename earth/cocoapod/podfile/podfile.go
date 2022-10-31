@@ -2,8 +2,8 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-30 22:02:53
- * @FilePath: /go/earth/cocoapod/podfile/podfile.go
+ * @LastEditTime: 2022-10-31 23:17:17
+ * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
@@ -14,7 +14,6 @@ import (
 	"fmt"
 	"goPlay/earth"
 	"strings"
-	"time"
 )
 
 // 获取对应PodFile的文件名
@@ -181,10 +180,11 @@ func ConfigPodfileWithMap(soureMap map[string]interface{}) map[string]interface{
 		fmt.Println(newPodfile) // 新podfile
 		fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
 
+		// 删除这段逻辑 . 没必要记录. 有git
 		// output newpodfile, and save old podfile
-		oldPodfile := FetchContent()
-		earth.UseCommandLine("touch " + "oldPodfile")
-		earth.WriteStringToFileFrom("oldPodfile", oldPodfile)
+		// oldPodfile := FetchContent()
+		// earth.UseCommandLine("touch " + "oldPodfile")
+		// earth.WriteStringToFileFrom("oldPodfile", oldPodfile)
 
 		earth.WriteStringToFileFrom("Podfile", newPodfile)
 
@@ -193,12 +193,13 @@ func ConfigPodfileWithMap(soureMap map[string]interface{}) map[string]interface{
 		// 	fmt.Printf("val: %q\n", v)
 		// }
 
+		// 删除这段逻辑 . 没必要记录. 有git
 		// make history
-		timeStr := time.Now().Format("20220101_11:11:01")
-		newHistroyPath := "before_pod2Local" + timeStr
-		earth.UseCommandLine("touch " + newHistroyPath)
-		jsonStr := earth.MapToJsonStr(historyMap)
-		earth.WriteStringToFileFrom(newHistroyPath, jsonStr)
+		// timeStr := time.Now().Format("20220101_11:11:01")
+		// newHistroyPath := "before_pod2Local" + timeStr
+		// earth.UseCommandLine("touch " + newHistroyPath)
+		// jsonStr := earth.MapToJsonStr(historyMap)
+		// earth.WriteStringToFileFrom(newHistroyPath, jsonStr)
 
 	} else {
 		fmt.Println("pod2local isMatched. or failed. ❌")

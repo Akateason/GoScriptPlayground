@@ -1,1 +1,0 @@
-{"MPCache":" pod \"MPCache\", :path=\u003e\"../MPCache\"\n\n","MPDebugTools":" pod \"MPDebugTools\",  \n :subspecs =\u003e [\"Vehicle\",\"AntiFraud\"], \n :configurations =\u003e ['Debug','Test'], \n :git =\u003e \"git@git.nevint.com:ios_dd/mplocale.git\", :tag =\u003e \"0.0.22\"\n","SnapKit":" pod 'SnapKit', \"1.2.1\"\n"}
