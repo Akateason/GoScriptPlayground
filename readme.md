@@ -2,8 +2,8 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-16 20:45:07
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 21:24:57
- * @FilePath: /go/readme.md
+ * @LastEditTime: 2022-10-31 23:28:53
+ * @FilePath: /GoScriptPlayground/readme.md
  * @Description: 
  * 
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved. 
@@ -17,12 +17,7 @@ cd 到项目根目录
  ```
  ->
  ```
-🕛install All start ...
-
-Already up to date.
-go scripts installed
-shell installed
-install complete🔥🔥🔥
+安装成功.🚀
 ```
 
 # HOW TO USE ??? ?? ?
