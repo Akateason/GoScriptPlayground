@@ -2,8 +2,8 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-11 01:03:42
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-24 22:37:18
- * @FilePath: /go/goScript/podGitAddress/podGitAddress.go
+ * @LastEditTime: 2022-10-31 23:36:37
+ * @FilePath: /GoScriptPlayground/goScript/podGitAddress/podGitAddress.go
  * @Description: 查pod远程仓库地址
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
@@ -24,10 +24,10 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "podGitAddress",
-		Usage: "查所有'第三方pod'的远程仓库地址",
+		Usage: "--------查所有'第三方pod'的远程仓库地址--------",
 		Action: func(ctx *cli.Context) error {
+			fmt.Println(ctx.App.Usage)
 
-			fmt.Println("--------查所有'第三方pod'的远程仓库地址--------")
 			fmt.Println("start ... ")
 
 			rstMap := podfileLock.FetchEverySpecRepos()

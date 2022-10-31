@@ -2,8 +2,8 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-21 11:55:52
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-15 19:33:48
- * @FilePath: /go/goScript/publishPod/publishPod.go
+ * @LastEditTime: 2022-10-31 23:34:55
+ * @FilePath: /GoScriptPlayground/goScript/publishPod/publishPod.go
  * @Description:
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
@@ -25,7 +25,7 @@ func main() {
 		Name:  "publishPod",
 		Usage: "组件发版 \n param(更新版本号第几位 -> 0,1,2)",
 		Action: func(ctx *cli.Context) error {
-			fmt.Printf("🚀组件发版 \n param(更新版本号第几位 -> 0,1,2) \n")
+			fmt.Println(ctx.App.Usage)
 			fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
 			var param1 = ctx.Args().Get(0)
 			if param1 == "" {

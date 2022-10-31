@@ -2,8 +2,8 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:00:20
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-29 13:48:02
- * @FilePath: /go/goScript/podFileFormat/podFileFormat.go
+ * @LastEditTime: 2022-10-31 23:37:00
+ * @FilePath: /GoScriptPlayground/goScript/podFileFormat/podFileFormat.go
  * @Description:
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
@@ -23,8 +23,9 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "podFileFormat",
-		Usage: "podFileFormat...",
+		Usage: "格式化Podfile  到文件 format_副本_pod_file",
 		Action: func(ctx *cli.Context) error {
+			fmt.Println(ctx.App.Usage)
 			fmt.Printf("格式化Podfile \n")
 			//fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
 
