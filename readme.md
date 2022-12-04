@@ -21,9 +21,7 @@ sudo ./installAll.sh
 ```
 
 
-# Introduction 
-
-不明白直接在脚本后面加" -h",  所有的脚本支持查看说明.
+# Introduction
 ```
 podV
 podFileFormat
@@ -33,18 +31,9 @@ boom
 pod2Local
 publishAll
 podGitAddress
-```
 
-```
 pi_only.sh
 pi_repo_update.sh
-pu_only.sh
 pod_trunk_push.sh
+pu_only.sh
 ```
-
-
-# HOW TO PUBLISH ??? ?? ? 如何发版
-```
-根目录  ./publishAll -h
-```
-
