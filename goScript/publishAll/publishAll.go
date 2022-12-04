@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-12-04 14:42:05
+ * @LastEditTime: 2022-12-04 14:56:41
  * @FilePath: /GoScriptPlayground/goScript/publishAll/publishAll.go
  * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
@@ -86,14 +86,14 @@ func main() {
 			}
 
 			// 安装shell脚本
-			cmdl := "cd " + pwd + "/shell/;" + "chmod -R a+x *.sh"
+			cmdl := "cd " + pwd + "/shell/;" + "chmod 777 *.sh"
 			e2 := earth.UseCommandLine(cmdl) // add auth to .sh
 			if e2 != nil {
 				fmt.Printf("❌shell加权限 出错\n")
 				return e2
 			}
 
-			cmdl = "cd " + pwd + ";" + "chmod -R a+x *.sh;" + "cp -r shell/. " + targetPath
+			cmdl = "cd " + pwd + ";" + "chmod 777 *.sh;" + "cp -r shell/. " + targetPath
 			// fmt.Printf(cmdl + "\n")
 			e2 = earth.UseCommandLine(cmdl) // do copy shell
 			if e2 != nil {
