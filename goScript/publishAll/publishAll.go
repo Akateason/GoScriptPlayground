@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-10-12 01:07:05
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-12-04 14:33:07
+ * @LastEditTime: 2022-12-04 14:35:48
  * @FilePath: /GoScriptPlayground/goScript/publishAll/publishAll.go
  * @Description: 所有脚本发版脚本. 仅供内部使用. [安装到sender]
  *
@@ -67,7 +67,7 @@ func main() {
 				fmt.Printf("❌go scripts 出错\n")
 				return e1
 			}
-			fmt.Printf("go scripts installed\n")
+			fmt.Printf("go scripts installed\n\n")
 
 			// 获取所有go脚本Name列表
 			e1 = earth.UseCommandLine("cd " + pwd + ";" + "cd goScript;find . -type d -depth 1 > ../allgo.txt")
@@ -100,7 +100,7 @@ func main() {
 				fmt.Printf("❌shell scripts 出错\n")
 				return e2
 			}
-			fmt.Printf("shell installed\n")
+			fmt.Printf("shell installed\n\n")
 
 			cmdl = "cd " + pwd + ";" + "cd shell; find *.sh -type f"
 			_, allshellTxt := earth.ExecuteCommandLine(cmdl)
