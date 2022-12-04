@@ -2,17 +2,17 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-16 20:45:07
  * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-12-04 14:20:46
+ * @LastEditTime: 2022-12-04 14:48:13
  * @FilePath: /GoScriptPlayground/readme.md
  * @Description: 
  * 
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved. 
 -->
 
-# HOW TO INSTALL ??? ?? ? 如何安装
+# HOW TO INSTALL ?
 
 ```
-cd 到项目根目录
+cd to project root folder
 sudo ./installAll.sh
  ```
  ->
@@ -20,6 +20,14 @@ sudo ./installAll.sh
 安装成功.🚀
 ```
 
+# HOW TO PUBLISH ?
+```
+cd to project root folder
+
+publishAll -h
+
+ "publishAll /Users/aaa/bbb/ccc/GoScriptPlayground 2"
+```
 
 # Introduction
 ```
