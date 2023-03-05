@@ -206,3 +206,20 @@ func JsonStrToMap(str string) map[string]interface{} {
 	}
 	return tempMap
 }
+
+/*
+*
+  - @description: 打印数组
+    必须组装成[]interface{}
+    var _list []interface{}
+    for _, v := range users {
+    _list = append(_list, v)
+    }
+  - @param {[]interface{}} array
+  - @return {*}
+*/
+func PrintArray(array []interface{}) {
+	for idx, str := range array {
+		fmt.Printf("%d-> %s\n", idx, str)
+	}
+}
