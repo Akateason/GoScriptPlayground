@@ -1,9 +1,9 @@
 /*
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-08-16 21:07:42
- * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-31 23:37:40
- * @FilePath: /GoScriptPlayground/goScript/boom/boom.go
+ * @LastEditors: tianchen.xie tianchen.xie@nio.com
+ * @LastEditTime: 2023-03-03 18:42:58
+ * @FilePath: /boom/boom.go
  * @Description: 单元测试
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
@@ -15,8 +15,7 @@ import (
 	"goPlay/earth"
 	"log"
 	"os"
-
-	// "strings"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -24,19 +23,38 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "boom",
-		Usage: "单元测试~~~ boom! I say~",
+		Usage: "单元测试",
 		Action: func(ctx *cli.Context) error {
-			fmt.Println(ctx.App.Usage)
+			// fmt.Println(ctx.App.Usage)
 
 			// get Arguments 参数
-			fmt.Printf("单元测试~~~args === %q\n", ctx.Args())
+			// fmt.Printf("单元测试~~~args === %q\n", ctx.Args())
 			// fmt.Printf("boom! I say %q \n", ctx.Args().Get(0))
+			fmt.Println("🚀auto reform view to cell")
 
-			_, tag := earth.ExecuteCommandLine("git describe --tags `git rev-list --tags --max-count=1`")
-			tag = earth.DeleteNewLine(tag)
-			// fmt.Printf("old version was %q\n\n", tag)
-			tag = earth.UpdateVersionWith(2, tag)
-			fmt.Printf("new version will be %q\n\n", tag)
+			// get cell template first
+			template := earth.ReadFileFrom("src/XXXCell.swift.tmp")
+			// fmt.Printf(template)
+
+			var files []string
+			files, _ = earth.GetAllFilePaths("input", files)
+			for i := 0; i < len(files); i++ {
+				fileName := files[i]
+				if strings.HasSuffix(fileName, ".swift") {
+					// get customView's name
+					fileName = strings.Replace(fileName, ".swift", "", -1)
+					fileName = strings.Replace(fileName, "input/", "", -1)
+					fmt.Println(fileName)
+
+					// generate newfile
+					content := strings.Replace(template, "XXX", fileName, -1)
+					newFileName := "output/" + fileName + "Cell.swift"
+					earth.WriteStringToFileFrom(newFileName, content)
+
+				}
+			}
+
+			// fmt.Printf(result)
 
 			return nil
 		},
