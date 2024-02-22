@@ -41,6 +41,7 @@ pod2Local
 publishAll
 podGitAddress
 
+openWorkSpace.sh
 pi_only.sh
 pi_repo_update.sh
 pod_trunk_push.sh
