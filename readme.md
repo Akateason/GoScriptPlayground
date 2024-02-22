@@ -34,6 +34,7 @@ publishAll -h
 podV
 podFileFormat
 podSpiderWeb
+view2cell
 publishPod
 boom
 pod2Local
