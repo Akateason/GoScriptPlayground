@@ -29,7 +29,7 @@ func main() {
 			fmt.Printf("格式化Podfile \n")
 			//fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
 
-			newContent := podfile.ExportNewPodfile()
+			newContent := podfile.ExportFomatedPodfile()
 			newPath := "format_副本_pod_file"
 			earth.UseCommandLine("touch " + newPath)
 			earth.WriteStringToFileFrom(newPath, newContent)

@@ -85,7 +85,7 @@ func Analysis(needPrint bool) []string {
 
 // 3.
 // podFileFormat 导出新Podfile
-func ExportNewPodfile() string {
+func ExportFomatedPodfile() string {
 	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
 	oldPodfile := FetchContent()
 	resultList := Analysis(true)
