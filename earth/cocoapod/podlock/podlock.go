@@ -55,7 +55,7 @@ func FetchEverySpecRepos() map[string]interface{} {
 	resultMap := make(map[string]interface{})
 	var tmpList []string = []string{}
 	var currentKey string
-	specReposResult := fetchSection("SPEC REPOS:")
+	specReposResult := FetchSection("SPEC REPOS:")
 	sourceList := strings.Split(specReposResult, "\n")
 	for _, v := range sourceList {
 
@@ -163,7 +163,7 @@ func space(number int) string {
  * @param {string} name 模块name, 比如PODS:
  * @return {*}
  */
-func fetchSection(name string) string {
+func FetchSection(name string) string {
 	analysisResult := Analysis()
 	for _, v := range analysisResult {
 		if strings.HasPrefix(v, name) {
@@ -175,5 +175,10 @@ func fetchSection(name string) string {
 
 // 获取.lock中 PODS模块
 func fetchPOD() string {
-	return fetchSection("PODS:")
+	return FetchSection("PODS:")
+}
+
+// 获取.lock中 DEPENDENCIES模块
+func FetchDependencies() string {
+	return FetchSection("DEPENDENCIES:")
 }
