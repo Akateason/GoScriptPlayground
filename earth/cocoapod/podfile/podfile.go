@@ -131,16 +131,14 @@ const kPodResourceState = "state"
 *
 
   - @description: 将pod按照本地配置进行处理. 并返回
-
   - @param localPathMap 一个字典套字典, 映射表. 可以是任何pod后的内容.
     localPathMap =
-    [podName : [originContent:string!, localPath:string?, remotePath:string?, branch:string?, commitHash:string?]]
-
   - @return {
     HistryMapMap返回保留更改之前的信息.
     }
 */
-func ConfigPodfileWithMap(soureMap map[string]interface{}) map[string]interface{} {
+// @deprecated: This method will be removed in future releases
+func Pod2LocalConfigPodfileWithMap(soureMap map[string]interface{}) map[string]interface{} {
 	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
 	newPodfile := FetchContent()
 
@@ -241,6 +239,7 @@ func isSamePodItem(item1 string, item2 string) bool {
     :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud"],
     :configurations => ['Debug','Test'], :path=>"../../snapkit"
 */
+// @deprecated: This method will be removed in future releases
 func makeNewPodItemToLocalPath(podItemSource string, appendValue string) string {
 	var podPrefix string
 	if strings.Contains(podItemSource, ",") {
