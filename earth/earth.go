@@ -223,3 +223,15 @@ func PrintArray(array []interface{}) {
 		fmt.Printf("%d-> %s\n", idx, str)
 	}
 }
+
+func PrintMap(theMap map[string]interface{}) {
+	for key, value := range theMap {
+		fmt.Println(key, ":", value.(string))
+	}
+}
+
+func PrintStrMap(theMap map[string]string) {
+	for key, value := range theMap {
+		fmt.Println(key, ":", value)
+	}
+}

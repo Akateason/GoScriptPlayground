@@ -179,6 +179,49 @@ func fetchPOD() string {
 }
 
 // 获取.lock中 DEPENDENCIES模块
-func FetchDependencies() string {
-	return FetchSection("DEPENDENCIES:")
+func FetchDependencies() map[string]string {
+	var result map[string]string = make(map[string]string)
+	sourceStr := FetchSection("DEPENDENCIES:")
+	list := strings.Split(sourceStr, "\n")
+
+	for _, v := range list {
+		v = strings.ReplaceAll(v, "\"", "")
+		if strings.HasPrefix(v, "  - ") {
+			parts := strings.SplitN(v, " (", 2)
+			key := strings.TrimPrefix(parts[0], "  - ")
+			value := strings.TrimSuffix(parts[1], ")")
+
+			if strings.HasPrefix(value, "= ") { // s.version
+				value = strings.TrimPrefix(value, "= ")
+				value = "\"" + value + "\""
+			} else if strings.HasPrefix(value, "from `../") { // local path
+				value = strings.TrimPrefix(value, "from ")
+				value = ", :path=>" + value
+				value = strings.ReplaceAll(value, "`", "\"")
+			} else if strings.HasPrefix(value, "from `git@") { // server git
+				if strings.Contains(value, ", commit") { // git commit
+					value = strings.ReplaceAll(value, "from `", ", :git=>\"")
+					value = strings.ReplaceAll(value, "`, commit `", "\", :commit=>\"")
+					value = strings.ReplaceAll(value, "`", "\"")
+				} else if strings.Contains(value, ", tag") { // git tag
+					value = strings.ReplaceAll(value, "from `", ", :git=>\"")
+					value = strings.ReplaceAll(value, "`, tag `", "\", :tag=>\"")
+					value = strings.ReplaceAll(value, "`", "\"")
+				} else if strings.Contains(value, ", branch") { // git branch
+					value = strings.ReplaceAll(value, "from `", ", :git=>\"")
+					value = strings.ReplaceAll(value, "`, branch `", "\", :branch=>\"")
+					value = strings.ReplaceAll(value, "`", "\"")
+				}
+			}
+			result[key] = value
+			if strings.Contains(key, "/") { //如果是subspec, 追加一个key
+				hasSubspecKey := strings.Split(key, "/")[0]
+				hasSubspecKey = earth.DeleteSpaceSymbol(hasSubspecKey)
+				result[hasSubspecKey] = value
+			}
+			// fmt.Println(key)
+			// fmt.Println(value)
+		}
+	}
+	return result
 }
