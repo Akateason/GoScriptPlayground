@@ -207,6 +207,23 @@ func JsonStrToMap(str string) map[string]interface{} {
 	return tempMap
 }
 
+func DictToText(data map[string]string) (string, error) {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonData), nil
+}
+
+func TextToDict(text string) (map[string]string, error) {
+	var data map[string]string
+	err := json.Unmarshal([]byte(text), &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
 /*
 *
   - @description: 打印数组
