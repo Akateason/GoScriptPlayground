@@ -32,6 +32,8 @@ publishAll -h
 # Introduction
 ```
 podV
+podlockDependencies
+podSync
 podFileFormat
 podSpiderWeb
 view2cell
