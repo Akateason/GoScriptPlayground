@@ -209,7 +209,7 @@ func Pod2LocalConfigPodfileWithMap(soureMap map[string]interface{}) map[string]i
 
 // 通用做Podfile方法, 统一改来源
 //   - @param localPathMap 一个字典套字典, 映射表. 可以是任何pod后的内容.
-func MakePodfileComefrom(soureMap map[string]string) {
+func MakePodfileComefrom(soureMap map[string]string) bool {
 	// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 1")
 	// fmt.Println(soureMap)
 	podfileContent := FetchContent()
@@ -279,10 +279,12 @@ func MakePodfileComefrom(soureMap map[string]string) {
 	}
 
 	fmt.Println(podfileContent) // 新podfile
-	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲3 ")
-
-	earth.WriteStringToFileFrom("Podfile", podfileContent)
-
+	if len(podfileContent) > 0 {
+		// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲3 ")
+		earth.WriteStringToFileFrom("Podfile", podfileContent)
+		return true
+	}
+	return false
 }
 
 // -------------------------------------------------- //
