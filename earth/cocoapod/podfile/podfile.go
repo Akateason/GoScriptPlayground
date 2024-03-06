@@ -222,12 +222,12 @@ func MakePodfileComefrom(soureMap map[string]string) {
 		podName := getOneLinePodName(podValue)
 
 		contentValue, ok := soureMap[podName]
-		fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲1.1=" + podName)
+		// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲1.1=" + podName)
 
 		if ok {
 			// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2")
-			fmt.Println(podName + " - is matched !🐶")
-			fmt.Println("---> " + podValue)
+			// fmt.Println(podName + " - is matched !🐶")
+			// fmt.Println("---> " + podValue)
 
 			originStrFromOldContent := findSourceLineWith(podValue, podfileContent)
 			if strings.Contains(originStrFromOldContent, ":path") { // 如果指向本地, 则忽略覆盖
@@ -235,20 +235,20 @@ func MakePodfileComefrom(soureMap map[string]string) {
 				continue
 			}
 
-			fmt.Println("🐲🐲🐲搜索2.11🐲" + podValue)
-			fmt.Println("🐲🐲🐲搜索2.12🐲" + originStrFromOldContent)
+			// fmt.Println("🐲🐲🐲搜索2.11🐲" + podValue)
+			// fmt.Println("🐲🐲🐲搜索2.12🐲" + originStrFromOldContent)
 			if len(originStrFromOldContent) > 0 {
 				var podPrefix string
 				if strings.Contains(podValue, ",") {
-					fmt.Println("🐲🐲🐲2.13🐲" + originStrFromOldContent)
+					// fmt.Println("🐲🐲🐲2.13🐲" + originStrFromOldContent)
 					clearedPodValue := earth.DeleteSpaceSymbol(podValue)
 					podItems := strings.Split(clearedPodValue, ",:") //拆分组
-					fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2.2")
-					fmt.Println(podItems)
+					// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2.2")
+					// fmt.Println(podItems)
 
 					var newItems []string
 					for _, maohaoItem := range podItems { //
-						fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2.3 冒号" + maohaoItem)
+						// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2.3 冒号" + maohaoItem)
 						if strings.HasPrefix(maohaoItem, "pod") &&
 							strings.Contains(maohaoItem, ",") {
 							maohaoItem = strings.Split(maohaoItem, ",")[0]
@@ -263,7 +263,7 @@ func MakePodfileComefrom(soureMap map[string]string) {
 				}
 				podPrefix = earth.DeleteSpaceSymbol(podPrefix) // del space
 				podPrefix = earth.DeleteNewLine(podPrefix)     // del \n
-				fmt.Println("得" + podPrefix)
+				// fmt.Println("得" + podPrefix)
 
 				if !strings.HasPrefix(contentValue, ",") {
 					contentValue = "," + contentValue
@@ -272,8 +272,8 @@ func MakePodfileComefrom(soureMap map[string]string) {
 				newPodValue = earth.DeleteSpaceSymbol(newPodValue)
 				podfileContent = strings.Replace(podfileContent, originStrFromOldContent, newPodValue, 1)
 
-				fmt.Println("出" + contentValue)
-				fmt.Println("得出" + newPodValue + "\n--------\n")
+				// fmt.Println("出" + contentValue)
+				// fmt.Println("得出" + newPodValue + "\n--------\n")
 			}
 		}
 	}

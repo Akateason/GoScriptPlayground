@@ -6,10 +6,12 @@ use_frameworks!
 platform :ios, "13.0"
 
 target "NIOSocial_Example" do
-pod'LookinServer',configurations=>['Debug'],"1.2.4"
-pod"MPDebugTools",configurations=>['Debug','Test'],"1.4.2"
-pod"NIOApiProviders","0.1.29"
-pod"MPUIKit",subspecs=>["NIOUIKitDeprecated","ALLSubSpecs"],"4.5.14"
+pod'LookinServer'
+,configurations=>['Debug']
+,"1.2.433"
+pod"MPDebugTools"
+pod"NIOApiProviders"
+pod"MPUIKit",subspecs=>["NIOUIKitDeprecated","ALLSubSpecs"],"8.8.8"
 pod"MPBusinessModel",subspecs=>["Vehicle","CNLink","CNAccount","Review","AntiFraud"],"0.11.15"
 pod"MPRouter","1.3.6"
 pod"MPApi","0.2.12"

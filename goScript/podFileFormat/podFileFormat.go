@@ -23,19 +23,14 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "podFileFormat",
-		Usage: "格式化Podfile  到文件 format_副本_pod_file",
+		Usage: "格式化Podfile",
 		Action: func(ctx *cli.Context) error {
 			fmt.Println(ctx.App.Usage)
 			fmt.Printf("格式化Podfile \n")
 			//fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
-
 			newContent := podfile.ExportFomatedPodfile()
-			newPath := "format_副本_pod_file"
-			earth.UseCommandLine("touch " + newPath)
-			earth.WriteStringToFileFrom(newPath, newContent)
-
-			fmt.Printf("\n\n\n🐂🐴\n\n\n格式化成功, 查看format_副本_pod_file \n")
-
+			earth.WriteStringToFileFrom("Podfile", newContent)
+			fmt.Printf("\n\n\n\n格式化成功, 查看Podfile \n")
 			return nil
 		},
 	}
