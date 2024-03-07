@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-03-07 16:42:14
+ * @LastEditTime: 2024-03-07 20:20:33
  * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -87,12 +87,32 @@ func Analysis(needPrint bool, podfileContent string) []string {
 	return resultList
 }
 
+/**
+ * @description: 删除所有注释
+ * @param {string} fileContent
+ * @return {*} string
+ */
+func RemoveAllAnnoation(fileContent string) string {
+	var tmp = fileContent
+	sourceList := strings.Split(fileContent, "\n")
+	for _, value := range sourceList {
+		cleared := earth.DeleteSpaceSymbol(value)
+		if strings.HasPrefix(cleared, "#") {
+			tmp = strings.Replace(tmp, value, "", 1)
+		} else if strings.HasPrefix(cleared, "//") {
+			tmp = strings.Replace(tmp, value, "", 1)
+		} else if strings.HasPrefix(cleared, "///") {
+			tmp = strings.Replace(tmp, value, "", 1)
+		}
+	}
+	return tmp
+}
+
 // 3.
 // podFileFormat 导出新Podfile
-func ExportFomatedPodfile() string {
+func ExportFomatedPodfile(oldPodfile string) string {
 	fmt.Println(" podfileformat🐲🐲🐲🐲🐲🐲🐲 ")
-	oldPodfile := FetchContent()
-	resultList := AnalysisLocal(true)
+	resultList := Analysis(true, oldPodfile)
 	for _, value := range resultList {
 		oldStr := findSourceLineWith(value, oldPodfile)
 		// fmt.Println("搜索" + value + "\n")
