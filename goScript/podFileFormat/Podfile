@@ -20,63 +20,7 @@ target 'IMModule_Example' do
     :git => "git@git.nevint.com:ios_dd/libraries/imui.git",
     #:commit => "5d100c1b1adc7773d2d9cd6f904b4584945cc375"
     :tag => "0.3.29"
-  pod "NadSubAppIOS",
-      :tag => "0.1.5",
-      :git => "git@git.nioint.com:adops/ADO-FE/nad-sub-app-ios.git"
-  pod 'NIOFileCDN'
-#  pod 'TXIMSDK_Plus_iOS_XCFramework', '7.4.4661'
-  pod 'TIM', '7.3.4359'
-  pod 'SwiftyJSON', '4.3.0', :source => 'https://cdn.cocoapods.org/'
-  pod 'RxCocoa', '5.1.1', :source => 'https://cdn.cocoapods.org/'
-  pod 'RxSwift', '5.1.1', :source => 'https://cdn.cocoapods.org/'
-  pod 'SDWebImage', '5.12.1'
-  pod 'SDWebImageWebPCoder', '0.8.4'
-  pod "lottie-ios", "3.5.0"
-  pod 'SnapKit', '5.0.1'
-  pod "LookinServer"
-  pod 'MJRefresh', '3.1.15.1'
-  pod "MPLaunch", "1.2.4"
-  pod "MPLog"
-  pod "MPLocale",
-      :git => "git@git.nevint.com:ios_dd/mplocale.git",
-      :tag => "0.3.0"
-  pod "MPFoundation"
-  
-  pod "MPApi"
-  pod 'NIONetKit', :git => "git@git.nevint.com:ios_dd/libraries/ios/nio-net-kit.git", :tag => "2.0.0"
-  pod "MPSecurity"
-  pod "MPHybrid", "0.4.58",:subspecs => ['Base', 'CN']
 
-  pod 'NIOAggregationLib', :git => 'git@git.nevint.com:ios-libs/nioaggregationlib.git'
-  pod 'NIOMediator'
-  pod 'MPPermissions',
-      "1.0.13",
-      :subspecs => [
-      'CCRC', 'Network', 'Location',
-      'PhotoLibrary', 'Camera', 'Notification',
-      'Microphone', 'Biometrics', 'Bluetooth', 'Calendar', 'MPAuthorisationManager'
-  ]
-  
-
-  #依托
-  pod "MPUIKit", "4.1.24"
-  pod "SkylineKit", "2.0.5"
-  pod "NIODesignKit", "1.0.8"
-  pod "Tubiao", "1.0.7", :subspecs => ["Skyline"]
-  pod "MPSwiftUI", '1.0.0'
-  pod 'NIOAppUIKit', "1.16.17"
-  pod "NUIOPlayground", '2.0.4'
-  pod "NIOAlbum", "1.1.1"
-  
-  pod "NIOApiProviders"
-  pod "MPCache", "0.4.14"
-  pod "MPRouter"
-  pod 'Qiniu', '7.2.4'
-  pod "ABTest", "0.1.1"
-  pod 'MPStatistics',
-    :git => 'git@git.nevint.com:ios_dd/MPStatistics.git',
-    :tag => '1.1.1'
-  
   pod "MPBusinessComponent/CN", "0.13.11"
   pod "MPBusinessModel", "0.10.9",
       :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud", "AddressBookCN", "CNPOI","Invoice", "APM", "OCR", "GlobalSearch"]
