@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-03-07 20:20:33
+ * @LastEditTime: 2024-03-07 21:19:41
  * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -239,14 +239,11 @@ func Pod2LocalConfigPodfileWithMap(soureMap map[string]interface{}) map[string]i
  */
 func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bool, string) {
 	// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 1")
-	// fmt.Println(soureMap)
 	// podfileContent := FetchContent(), // 不用本地路径下了, 做成参数进来.
 
 	analsisList := Analysis(false, podfileContent)
 
 	for _, podValue := range analsisList {
-		// podValue = earth.DeleteSpaceSymbol(podValue)
-		// podValue = earth.DeleteNewLine(podValue)
 		podName := getOneLinePodName(podValue)
 
 		contentValue, ok := sourceMap[podName]
@@ -254,7 +251,7 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 
 		if ok {
 			// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2")
-			fmt.Println(podName + " - is matched !🐶" + podValue)
+			// fmt.Println(podName + " - is matched !🐶" + podValue)
 
 			originStrFromOldContent := findSourceLineWith(podValue, podfileContent)
 			if strings.Contains(originStrFromOldContent, ":path") { // 如果指向本地, 则忽略覆盖
@@ -262,8 +259,8 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 				continue
 			}
 
-			// fmt.Println("🐲🐲🐲搜索2.11🐲" + podValue)
-			// fmt.Println("🐲🐲🐲搜索2.12🐲" + originStrFromOldContent)
+			// fmt.Println("🐲🐲🐲2.11🐲" + podValue)
+			// fmt.Println("🐲🐲🐲2.12🐲" + originStrFromOldContent)
 			if len(originStrFromOldContent) > 0 {
 				var podPrefix string
 				if strings.Contains(podValue, ",") {
@@ -281,6 +278,9 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 							maohaoItem = strings.Split(maohaoItem, ",")[0]
 						}
 						if isAbsolutelyNeedItem(maohaoItem) {
+							if strings.HasPrefix(maohaoItem, "subspec") || strings.HasPrefix(maohaoItem, "configuration") {
+								maohaoItem = ":" + maohaoItem
+							}
 							newItems = append(newItems, maohaoItem)
 						}
 					}
@@ -290,17 +290,35 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 				}
 				podPrefix = earth.DeleteSpaceSymbol(podPrefix) // del space
 				podPrefix = earth.DeleteNewLine(podPrefix)     // del \n
-				// fmt.Println("得" + podPrefix)
+				fmt.Println("得" + podPrefix)
 
-				if !strings.HasPrefix(contentValue, ",") {
-					contentValue = "," + contentValue
+				var newPodValue string
+				if earth.IsStrContainsEnglish(contentValue) { // 非版本号, 后插
+					if !strings.HasPrefix(contentValue, ",") {
+						contentValue = "," + contentValue
+					}
+					newPodValue = podPrefix + contentValue
+				} else { // 版本号, 需要前插
+					if strings.Contains(podPrefix, ",") {
+						podPrefixList := strings.Split(podPrefix, ",")
+						// 在第二位插入字符串
+						insertStr := contentValue
+						podPrefixList = append(podPrefixList[:1], append([]string{insertStr}, podPrefixList[1:]...)...)
+						newPodValue = strings.Join(podPrefixList, ",")
+					} else {
+						if !strings.HasPrefix(contentValue, ",") {
+							contentValue = "," + contentValue
+						}
+						newPodValue = podPrefix + contentValue
+					}
 				}
-				newPodValue := podPrefix + contentValue
+
+				fmt.Println("出" + contentValue)
+
 				newPodValue = earth.DeleteSpaceSymbol(newPodValue)
 				podfileContent = strings.Replace(podfileContent, originStrFromOldContent, newPodValue, 1)
 
-				// fmt.Println("出" + contentValue)
-				// fmt.Println("得出" + newPodValue + "\n--------\n")
+				fmt.Println("得出" + newPodValue + "\n--------\n")
 			}
 		}
 	}

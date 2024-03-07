@@ -3,6 +3,7 @@ package earth
 import (
 	"bufio"
 	"encoding/json"
+	"regexp"
 
 	"fmt"
 	"io"
@@ -283,4 +284,25 @@ func PrintStrMap(theMap map[string]string) {
 	for key, value := range theMap {
 		fmt.Println(key, ":", value)
 	}
+}
+
+func IsVersionNumber(input string) bool {
+	regex := regexp.MustCompile(`^\d+\.\d+\.\d+$`)
+	if regex.MatchString(input) {
+		fmt.Printf("%s is a valid version number\n", input)
+		return true
+	} else {
+		fmt.Printf("%s is not a valid version number\n", input)
+		return false
+	}
+}
+
+func IsStrContainsEnglish(str string) bool {
+	dictionary := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	for _, v := range str {
+		if strings.Contains(dictionary, string(v)) {
+			return true
+		}
+	}
+	return false
 }

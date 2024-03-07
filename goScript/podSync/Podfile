@@ -8,30 +8,15 @@ use_frameworks!
 install! "cocoapods", :disable_input_output_paths => true
 
 target 'IMModule_Example' do
-  pod 'IMModule', :path => '../'
-  pod 'MPDebugTools',
-    #:path => "../../mpdebugtools",
-    :git => "git@git.nevint.com:ios_dd/mpdebugtools.git",
-    :commit => "b321b4beae6c72be7c5ac5a530314b722434ce0e",
-    #:branch => "feature/cn_environment",
-    :subspecs => ["CN"]
-  pod "IMUI",
-    #:path => "../../imui"
-    :git => "git@git.nevint.com:ios_dd/libraries/imui.git",
-    #:commit => "5d100c1b1adc7773d2d9cd6f904b4584945cc375"
-    :tag => "0.3.29"
-
-  pod "MPBusinessComponent/CN", "0.13.11"
-  pod "MPBusinessModel", "0.10.9",
-      :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud", "AddressBookCN", "CNPOI","Invoice", "APM", "OCR", "GlobalSearch"]
-      
-  pod "NIOGray", '1.0.4'
-  pod 'NIOAppKit', '1.14.22'
-  
-  pod 'FDFoundation', :git => 'git@git.nioint.com:ios_dd/libraries/DOMOBILE-FeiDian/DOMOBILE-FeiDian-FDFoundation.git', :tag => '1.3.13'
-     
-  pod 'NIOURLNavigator', :git => 'git@git.nioint.com:ios_dd/libraries/ios-libs/NIOURLNavigator.git', :tag => '1.0.0'
-  
+pod'IMModule',:path=>'../'
+pod'MPDebugTools',"1.4.3",:subspecs=>["CN"]
+pod"IMUI","0.3.34"
+pod"MPBusinessComponent/CN","0.14.16"
+pod"MPBusinessModel","0.11.17",:subspecs=>["Vehicle","CNLink","CNAccount","Review","AntiFraud","AddressBookCN","CNPOI","Invoice","APM","OCR","GlobalSearch"]
+pod"NIOGray","1.0.3"
+pod'NIOAppKit',"1.14.26"
+pod'FDFoundation',:git=>"git@git.nioint.com:ios_dd/libraries/DOMOBILE-FeiDian/DOMOBILE-FeiDian-FDFoundation.git",:tag=>"1.3.13"
+pod'NIOURLNavigator',:git=>"git@git.nioint.com:ios_dd/libraries/ios-libs/NIOURLNavigator.git",:tag=>"1.0.0"
   target 'IMModule_Tests' do
     inherit! :search_paths
   end
@@ -40,19 +25,19 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      # 移除 iOS 8.0 部署配置。Xcode 12 已不支持 iOS 8.0，移除设置将清理编译器警告。
-      # Pods 项目将使用主项目部署配置。
+
+
       config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
       config.build_settings['ENABLE_BITCODE'] = 'NO'
       config.build_settings['SWIFT_VERSION'] = '5.0'
 
-      # Xcode14 移除bundle签名
+
       if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
         config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
       end
     end
     installer.pods_project.build_configurations.each do |config|
-        # 适配 Xcode 14.3 移除 Rosetta 模式
+
         config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
     end
   end
