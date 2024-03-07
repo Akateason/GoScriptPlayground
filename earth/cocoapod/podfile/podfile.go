@@ -2,8 +2,8 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-03-07 15:47:15
- * @FilePath: /podSync/Users/tianchen.xie/Documents/GoScriptPlayground/earth/cocoapod/podfile/podfile.go
+ * @LastEditTime: 2024-03-07 16:42:14
+ * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
@@ -234,8 +234,7 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 
 		if ok {
 			// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2")
-			// fmt.Println(podName + " - is matched !🐶")
-			// fmt.Println("---> " + podValue)
+			fmt.Println(podName + " - is matched !🐶" + podValue)
 
 			originStrFromOldContent := findSourceLineWith(podValue, podfileContent)
 			if strings.Contains(originStrFromOldContent, ":path") { // 如果指向本地, 则忽略覆盖
@@ -252,7 +251,7 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 					clearedPodValue := earth.DeleteSpaceSymbol(podValue)
 					podItems := strings.Split(clearedPodValue, ",:") //拆分组
 					// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 2.2")
-					// fmt.Println(podItems)
+					fmt.Println(podItems)
 
 					var newItems []string
 					for _, maohaoItem := range podItems { //
@@ -494,6 +493,9 @@ func findSourceLineWith(value string, podfileSource string) string {
 			} else if theIndex+1 == index {
 				if firstWordIsPod(v) {
 					// fmt.Println("🐷跳出" + resultString + "\n")
+					return resultString
+				} else if isTargetDoEnd(v) {
+					// fmt.Println("🐷跳出 空白" + resultString)
 					return resultString
 				} else {
 					theIndex++
