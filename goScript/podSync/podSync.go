@@ -1,10 +1,19 @@
+/*
+ * @Author: tianchen.xie tianchen.xie@nio.com
+ * @Date: 2024-02-22 16:30:00
+ * @LastEditors: tianchen.xie tianchen.xie@nio.com
+ * @LastEditTime: 2024-03-07 14:20:16
+ * @FilePath: /GoScriptPlayground/goScript/podSync/podSync.go
+ * @Description: podSync
+ *
+ * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
+ */
 package main
 
 import (
 	"fmt"
 	"goPlay/earth"
 	"goPlay/earth/cocoapod/podfile"
-	podfileLock "goPlay/earth/cocoapod/podlock"
 	"log"
 	"os"
 
@@ -43,11 +52,14 @@ func main() {
 			/// 拿到主工程依赖
 			fmt.Println("🐲获取主工程依赖 ing...")
 
-			earth.UseCommandLine("cd " + param1 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile.lock " + workingFolder + ";") // ✅get main, podlock
-			earth.UseCommandLine("cd " + param2 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile " + workingFolder + ";")      // ✅get biz, Podfile
+			earth.UseCommandLine("cd " + param1 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile.lock " + workingFolder + ";")          // ✅get main, podlock
+			earth.UseCommandLine("cd " + param2 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile " + workingFolder + ";podFileFormat;") // ✅get biz, Podfile, and format podfile
 
-			dependencyMap := podfileLock.FetchDependencies()
-			earth.PrintStrMap(dependencyMap)
+			earth.UseCommandLine("cd " + workingFolder + ";" + "podlockDependencies" + ";") // ✅find dependency
+
+			_, jsonDependency := earth.ExecuteCommandLine("cd " + workingFolder + ";str=$(cat dependencies.json);echo $str;") // ✅fetch dependency.json
+			dependencyMap, _ := earth.TextToDict(jsonDependency)
+			// earth.PrintStrMap(dependencyMap)
 			fmt.Println()
 			if len(dependencyMap) == 0 {
 				fmt.Printf("❌ 获取主工程依赖失败, 检查 参数1 \n")
@@ -56,10 +68,17 @@ func main() {
 
 			/// 解析子仓podfile
 			fmt.Println("🐲处理子仓podfile ing...")
-			result := podfile.MakePodfileComefrom(dependencyMap)
+
+			_, absoluteWorkingspacePath := earth.TransLinuxPathToAbsolutePath(workingFolder) // ✅golang不能识别波浪号路径"~/xxx", 转成绝对路径
+
+			podfileContent := earth.ReadFileFrom(absoluteWorkingspacePath + "/" + "Podfile") // ✅ get podfile content from workspace
+
+			isSuccess, result := podfile.MakePodfileComefrom(dependencyMap, podfileContent) // ✅拿到新Podfile整合结果
+
+			earth.WriteStringToFileFrom(param2+"/Podfile", result)
 			fmt.Println()
-			if result {
-				fmt.Println("success🚀 \nEnd")
+			if isSuccess {
+				fmt.Println("success🚀🚀🚀 \nEnd")
 			} else {
 				fmt.Printf("❌ 解析子仓podfile失败, 检查 参数2 \n")
 			}

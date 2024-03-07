@@ -1,8 +1,8 @@
 /*
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
- * @LastEditors: Mamba24 akateason@qq.com
- * @LastEditTime: 2022-10-31 23:17:17
+ * @LastEditors: tianchen.xie tianchen.xie@nio.com
+ * @LastEditTime: 2024-03-07 15:23:31
  * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -42,9 +42,13 @@ func FetchContent() string {
 // 忽略 #注释
 // 2.
 // 根据pod内容分组
-func Analysis(needPrint bool) []string {
-	var resultList []string
+func AnalysisLocal(needPrint bool) []string {
 	podfileContent := FetchContent()
+	return Analysis(needPrint, podfileContent)
+}
+
+func Analysis(needPrint bool, podfileContent string) []string {
+	var resultList []string
 	sourceList := strings.Split(podfileContent, "\n")
 	for _, value := range sourceList {
 		if isAllWhiteSpace(value) {
@@ -86,13 +90,13 @@ func Analysis(needPrint bool) []string {
 // 3.
 // podFileFormat 导出新Podfile
 func ExportFomatedPodfile() string {
-	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
+	fmt.Println(" podfileformat🐲🐲🐲🐲🐲🐲🐲 ")
 	oldPodfile := FetchContent()
-	resultList := Analysis(true)
+	resultList := AnalysisLocal(true)
 	for _, value := range resultList {
 		oldStr := findSourceLineWith(value, oldPodfile)
-		fmt.Println("搜索" + value + "\n")
-		fmt.Println("得出" + oldStr + "\n--------\n")
+		// fmt.Println("搜索" + value + "\n")
+		// fmt.Println("得出" + oldStr + "\n--------\n")
 		if len(oldStr) > 0 {
 			clearedValue := earth.DeleteSpaceSymbol(value)
 			oldPodfile = strings.Replace(oldPodfile, oldStr, clearedValue, 1)
@@ -143,7 +147,7 @@ func Pod2LocalConfigPodfileWithMap(soureMap map[string]interface{}) map[string]i
 	fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 ")
 	newPodfile := FetchContent()
 
-	analsisList := Analysis(false)
+	analsisList := AnalysisLocal(false)
 
 	var historyMap map[string]interface{} = make(map[string]interface{})
 
@@ -207,21 +211,25 @@ func Pod2LocalConfigPodfileWithMap(soureMap map[string]interface{}) map[string]i
 	return historyMap
 }
 
-// 通用做Podfile方法, 统一改来源
-//   - @param localPathMap 一个字典套字典, 映射表. 可以是任何pod后的内容.
-func MakePodfileComefrom(soureMap map[string]string) bool {
+/**
+ * @description: 通用做Podfile方法, 统一改来源
+ * @param {map[string]string} soureMap 一个字典套字典, 映射表. 可以是任何pod后的内容.
+ * @param {podfileContent} 来源podfile 文本内容
+ * @return {success, result新Podfile文本}
+ */
+func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bool, string) {
 	// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲 1")
 	// fmt.Println(soureMap)
-	podfileContent := FetchContent()
+	// podfileContent := FetchContent(), // 不用本地路径下了, 做成参数进来.
 
-	analsisList := Analysis(false)
+	analsisList := Analysis(false, podfileContent)
 
 	for _, podValue := range analsisList {
 		// podValue = earth.DeleteSpaceSymbol(podValue)
 		// podValue = earth.DeleteNewLine(podValue)
 		podName := getOneLinePodName(podValue)
 
-		contentValue, ok := soureMap[podName]
+		contentValue, ok := sourceMap[podName]
 		// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲1.1=" + podName)
 
 		if ok {
@@ -281,10 +289,9 @@ func MakePodfileComefrom(soureMap map[string]string) bool {
 	fmt.Println(podfileContent) // 新podfile
 	if len(podfileContent) > 0 {
 		// fmt.Println(" 🐲🐲🐲🐲🐲🐲🐲3 ")
-		earth.WriteStringToFileFrom("Podfile", podfileContent)
-		return true
+		return true, podfileContent
 	}
-	return false
+	return false, ""
 }
 
 // -------------------------------------------------- //
@@ -295,6 +302,11 @@ func MakePodfileComefrom(soureMap map[string]string) bool {
 // -------------------------------------------------- //
 // -------------------------------------------------- //
 
+/**
+ * @description: 拿到这行的pod名字
+ * @param {string} oneLine
+ * @return {*}
+ */
 func getOneLinePodName(oneLine string) string {
 	if strings.HasPrefix(strings.TrimSpace(oneLine), "pod") {
 		oneLine = earth.DeleteSpaceSymbol(oneLine)
@@ -417,30 +429,42 @@ func isAnnoation(source string) bool {
 
 // 字符串是 "target do, end, use_frameworks" 等Podfile中无关的关键字?
 func isTargetDoEnd(source string) bool {
-	if strings.HasPrefix(source, "target") &&
-		strings.HasSuffix(source, "do") {
+	clearedStr := earth.DeleteSpaceSymbol(source)
+	if strings.HasPrefix(clearedStr, "#") {
 		return true
 	}
-	source = earth.DeleteSpaceSymbol(source)
-	if source == "end" {
+	if strings.HasPrefix(clearedStr, "if") {
 		return true
 	}
-	if strings.Contains(source, "use_frameworks") {
+	if strings.HasPrefix(clearedStr, "target") &&
+		strings.HasSuffix(clearedStr, "do") {
 		return true
 	}
-	if strings.Contains(source, "source") {
+	if clearedStr == "end" {
 		return true
 	}
-	if strings.Contains(source, "platform") {
+	if strings.Contains(clearedStr, "use_frameworks") {
 		return true
 	}
-	if strings.Contains(source, "post_install") {
+	if strings.Contains(clearedStr, "source") {
 		return true
 	}
-	if strings.Contains(source, "config.") {
+	if strings.Contains(clearedStr, "platform") {
 		return true
 	}
-	if strings.Contains(source, "installer.") {
+	if strings.Contains(clearedStr, "post_install") {
+		return true
+	}
+	if strings.Contains(clearedStr, "config.") {
+		return true
+	}
+	if strings.Contains(clearedStr, "installer.") {
+		return true
+	}
+	if strings.Contains(clearedStr, "target.") {
+		return true
+	}
+	if strings.Contains(clearedStr, "inherit") {
 		return true
 	}
 
@@ -460,7 +484,7 @@ func firstWordIsPod(source string) bool {
 
 // 找出value对应在source中的原文string
 func findSourceLineWith(value string, podfileSource string) string {
-	//fmt.Println("搜索" + value + "\n")
+	// fmt.Println("🐷搜索" + value + "\n")
 	var resultString string = ""
 	if strings.Contains(value, ",") {
 		// 有条件的pod, 例如像pod 'XTFMDB', :path=>'../XTFMDB'
@@ -474,6 +498,7 @@ func findSourceLineWith(value string, podfileSource string) string {
 				resultString = v
 			} else if theIndex+1 == index {
 				if firstWordIsPod(v) || isTargetDoEnd(v) {
+					// fmt.Println("🐷跳出" + resultString + "\n")
 					return resultString
 				} else {
 					theIndex++
