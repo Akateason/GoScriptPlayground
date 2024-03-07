@@ -1,3 +1,13 @@
+/*
+ * @Author: tianchen.xie tianchen.xie@nio.com
+ * @Date: 2024-02-22 16:30:00
+ * @LastEditors: tianchen.xie tianchen.xie@nio.com
+ * @LastEditTime: 2024-03-07 20:36:57
+ * @FilePath: /GoScriptPlayground/goScript/podlockDependencies/podlockDependencies.go
+ * @Description:
+ *
+ * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
+ */
 package main
 
 import (
@@ -21,7 +31,7 @@ func main() {
 			earth.PrintStrMap(dependencyMap)
 			str, _ := earth.DictToText(dependencyMap)
 			earth.WriteStringToFileFrom("dependencies.json", str)
-			fmt.Println("已输出到dependencies.json")
+			fmt.Println("__已输出到dependencies.json")
 			return nil
 		},
 	}
