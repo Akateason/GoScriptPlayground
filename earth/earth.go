@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"os/user"
 	"strconv"
 	"strings"
 	"sync"
@@ -67,6 +68,27 @@ func ReadFileFrom(fileName string) string {
 		return ""
 	}
 	return string(f)
+}
+
+/**
+ * @description: linux的相对路径转成golang绝对路径
+ * @param {string} linuxRelativePath 形如 "/Desktop/aaa.txt"
+ * @return {error, absolutePath}
+ */
+func TransLinuxPathToAbsolutePath(linuxRelativePath string) (error, string) {
+	currentUser, err := user.Current()
+	if err != nil {
+		fmt.Println("transPathToAbsolutePath, 获取当前用户信息失败：", err)
+		return err, ""
+	}
+	if strings.Contains(linuxRelativePath, "~") {
+		linuxRelativePath = strings.ReplaceAll(linuxRelativePath, "~", "")
+	}
+	if !strings.HasPrefix(linuxRelativePath, "/") {
+		linuxRelativePath = "/" + linuxRelativePath
+	}
+	filePath := currentUser.HomeDir + linuxRelativePath
+	return nil, filePath
 }
 
 // isFileExists 判断所给路径文件/文件夹是否存在
@@ -207,6 +229,11 @@ func JsonStrToMap(str string) map[string]interface{} {
 	return tempMap
 }
 
+/**
+ * @description: dict to str
+ * @param {map[string]string} data
+ * @return {*}
+ */
 func DictToText(data map[string]string) (string, error) {
 	jsonData, err := json.Marshal(data)
 	if err != nil {
@@ -215,6 +242,11 @@ func DictToText(data map[string]string) (string, error) {
 	return string(jsonData), nil
 }
 
+/**
+ * @description: text to dict[str][str]
+ * @param {string} text
+ * @return {*}
+ */
 func TextToDict(text string) (map[string]string, error) {
 	var data map[string]string
 	err := json.Unmarshal([]byte(text), &data)
