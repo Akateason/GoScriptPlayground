@@ -2,7 +2,7 @@
  * @Author: tianchen.xie tianchen.xie@nio.com
  * @Date: 2024-02-22 16:30:00
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-03-07 14:20:16
+ * @LastEditTime: 2024-03-07 20:33:11
  * @FilePath: /GoScriptPlayground/goScript/podSync/podSync.go
  * @Description: podSync
  *
@@ -52,8 +52,8 @@ func main() {
 			/// 拿到主工程依赖
 			fmt.Println("🐲获取主工程依赖 ing...")
 
-			earth.UseCommandLine("cd " + param1 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile.lock " + workingFolder + ";")          // ✅get main, podlock
-			earth.UseCommandLine("cd " + param2 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile " + workingFolder + ";podFileFormat;") // ✅get biz, Podfile, and format podfile
+			earth.UseCommandLine("cd " + param1 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile.lock " + workingFolder + ";")                                        // ✅get main, podlock
+			earth.UseCommandLine("cd " + param2 + ";" + "mkdir -p " + workingFolder + ";" + "cp Podfile " + workingFolder + ";" + "cd " + workingFolder + ";podFileFormat;") // ✅get biz, Podfile, and format podfile
 
 			earth.UseCommandLine("cd " + workingFolder + ";" + "podlockDependencies" + ";") // ✅find dependency
 
