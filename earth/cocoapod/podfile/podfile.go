@@ -2,8 +2,8 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-03-07 15:23:31
- * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
+ * @LastEditTime: 2024-03-07 15:47:15
+ * @FilePath: /podSync/Users/tianchen.xie/Documents/GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
  * Copyright (c) 2022 by Mamba24 akateason@qq.com, All Rights Reserved.
@@ -419,12 +419,7 @@ func isAllWhiteSpace(source string) bool {
 // 字符串是注释?
 func isAnnoation(source string) bool {
 	source = earth.DeleteSpaceSymbol(source)
-	if len(source) > 0 {
-		if source[0:1] == "#" {
-			return true
-		}
-	}
-	return false
+	return strings.HasPrefix(source, "#")
 }
 
 // 字符串是 "target do, end, use_frameworks" 等Podfile中无关的关键字?
@@ -497,7 +492,7 @@ func findSourceLineWith(value string, podfileSource string) string {
 				theIndex = index
 				resultString = v
 			} else if theIndex+1 == index {
-				if firstWordIsPod(v) || isTargetDoEnd(v) {
+				if firstWordIsPod(v) {
 					// fmt.Println("🐷跳出" + resultString + "\n")
 					return resultString
 				} else {
