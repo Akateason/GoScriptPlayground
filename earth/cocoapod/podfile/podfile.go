@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-03-07 21:19:41
+ * @LastEditTime: 2024-04-02 14:57:48
  * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -290,7 +290,7 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 				}
 				podPrefix = earth.DeleteSpaceSymbol(podPrefix) // del space
 				podPrefix = earth.DeleteNewLine(podPrefix)     // del \n
-				fmt.Println("得" + podPrefix)
+				// fmt.Println("得" + podPrefix)
 
 				var newPodValue string
 				if earth.IsStrContainsEnglish(contentValue) { // 非版本号, 后插
@@ -313,12 +313,12 @@ func MakePodfileComefrom(sourceMap map[string]string, podfileContent string) (bo
 					}
 				}
 
-				fmt.Println("出" + contentValue)
+				// fmt.Println("出" + contentValue)
 
 				newPodValue = earth.DeleteSpaceSymbol(newPodValue)
 				podfileContent = strings.Replace(podfileContent, originStrFromOldContent, newPodValue, 1)
 
-				fmt.Println("得出" + newPodValue + "\n--------\n")
+				// fmt.Println("得出" + newPodValue + "\n--------\n")
 			}
 		}
 	}

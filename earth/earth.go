@@ -121,10 +121,10 @@ func WriteStringToFileFrom(fileName string, writeInfo string) {
 	_ = IfNoFileToCreate(fileName)
 	info := []byte(writeInfo)
 	if err := ioutil.WriteFile(fileName, info, 0666); err != nil {
-		log.Printf("WriteStringToFileFrom %q 写入文件失败:%+v", fileName, err)
+		log.Printf("WriteStringToFileFrom %q 写入失败:%+v", fileName, err)
 		return
 	}
-	log.Printf("WriteStringToFileFrom %q 写入文件成功", fileName)
+	log.Printf("WriteStringToFileFrom %q 写入成功", fileName)
 }
 
 // 获取当前项目根目录下所有文件

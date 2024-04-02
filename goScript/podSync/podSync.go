@@ -2,7 +2,7 @@
  * @Author: tianchen.xie tianchen.xie@nio.com
  * @Date: 2024-02-22 16:30:00
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-03-07 20:33:11
+ * @LastEditTime: 2024-04-02 15:12:35
  * @FilePath: /GoScriptPlayground/goScript/podSync/podSync.go
  * @Description: podSync
  *
@@ -78,7 +78,10 @@ func main() {
 			earth.WriteStringToFileFrom(param2+"/Podfile", result)
 			fmt.Println()
 			if isSuccess {
-				fmt.Println("success🚀🚀🚀 \nEnd")
+				fmt.Println("podSync成功 🚀🚀🚀 ")
+				fmt.Println("请去git查看Podfile比对结果🚀🚀🚀")
+				fmt.Println("pod install repo update")
+				earth.UseCommandLine("cd " + param2 + ";" + "pi_repo_update.sh;")
 			} else {
 				fmt.Printf("❌ 解析子仓podfile失败, 检查 参数2 \n")
 			}
