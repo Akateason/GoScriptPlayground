@@ -6,37 +6,39 @@ use_frameworks!
 platform :ios, "13.0"
 
 target "NIOSocial_Example" do
- pod 'LookinServer', :configurations => ['Debug']
- pod "MPDebugTools", :configurations => ['Debug','Test'], :git=>"git@git.nevint.com:ios_dd/mpdebugtools.git", :commit=>'2fada45c9d31d8fcb2669773d3dcd747d74deb8c'
- pod "NIOApiProviders", :git => "git@git.nevint.com:ios_dd/nioapiproviders.git", :tag => "0.1.12"
- pod "MPUIKit", :subspecs => ["NIOUIKitDeprecated", "ALLSubSpecs"], :git => "git@git.nevint.com:ios_dd/mpuikit.git", :commit => '74e2d588b40d0a57344fc330b586de538cacf525' # textview有一个ui调整
- pod "MPBusinessModel", :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud"], :git => "git@git.nevint.com:ios_dd/mpbusinessmodel.git", :tag => "0.4.17"
- pod "MPRouter", :git => "git@git.nevint.com:ios_dd/mprouter.git", :tag => "1.2.2"
- pod "MPApi", :git => "git@git.nevint.com:ios_dd/mpapi.git", :tag => "0.1.22"
- pod "MPBusinessComponent/CN", "0.5.20"
- pod "MPSwiftUI", :git => "git@git.nevint.com:ios_dd/mpswiftui.git", :tag => '0.1.3'
- pod "MPLog", "~> 0.0.12"
- pod "MPLocale", :git => "git@git.nevint.com:ios_dd/mplocale.git", :tag => "0.0.22"
- pod "MPFoundation"
+pod'LookinServer'
+,configurations=>['Debug']
+,"1.2.433"
+pod"MPDebugTools"
+pod"NIOApiProviders"
+pod"MPUIKit",subspecs=>["NIOUIKitDeprecated","ALLSubSpecs"],"8.8.8"
+pod"MPBusinessModel",subspecs=>["Vehicle","CNLink","CNAccount","Review","AntiFraud"],"0.11.15"
+pod"MPRouter","1.3.6"
+pod"MPApi","0.2.12"
+pod"MPBusinessComponent/CN","0.14.11"
+pod"MPSwiftUI",:git=>"git@git.nioint.com:ios_dd/mpswiftui.git",:tag=>"1.0.2"
+pod"MPLog","2.0.3"
+pod"MPLocale","0.5.0"
+pod"MPFoundation",:git=>"git@git.nioint.com:ios_dd/mpfoundation.git",:tag=>"0.3.8"
 
- pod "MPCache"
+pod"MPCache","0.4.16"
 
 
 
- pod 'MPPermissions', :subspecs => [ 'CCRC', 'Network', 'Location', 'PhotoLibrary', 'Camera', 'Notification', 'Microphone', 'Biometrics', 'Bluetooth', 'Calendar', 'MPAuthorisationManager' ], :git => 'git@git.nevint.com:ios_dd/MPPermission.git', :tag => "1.0.8"
- pod 'Eureka', :git => 'git@git.nevint.com:ios_dd/libraries/ios-libs/Eureka.git', :tag => '4.3.2'
- pod "SDWebImage", "5.12.1"
- pod "MJRefresh", "3.1.15.1"
- pod 'RxCocoa', '5.1.1'
- pod 'SnapKit', '5.0.1'
- pod 'SwiftyJSON', '4.3.0'
- pod "lottie-ios", "3.2.1"
- pod "MPHybrid/CN", "0.2.20"
- pod "NIONetKit", :git => "git@git.nevint.com:ios_dd/libraries/ios/nio-net-kit.git", :tag => "2.0.0"
- pod "NIOAggregationLib", :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/nioaggregationlib.git", :tag => "1.0.0"
- pod "NIOAppKit", :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOAppKit.git", :tag => "1.14.4"
- pod "NIOQMap3D", :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOQMap3D.git", :tag => "1.0.0"
- pod "NIOPOISearch", :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOPOISearch.git", :tag => "0.6.8"
+pod'MPPermissions',subspecs=>['CCRC','Network','Location','PhotoLibrary','Camera','Notification','Microphone','Biometrics','Bluetooth','Calendar','MPAuthorisationManager'],"1.0.15"
+pod'Eureka',:git=>"git@git.nioint.com:ios_dd/libraries/ios-libs/Eureka.git",:tag=>"4.3.2"
+pod"SDWebImage","5.15.4"
+pod"MJRefresh","3.1.15.1"
+pod'RxCocoa',"5.1.1"
+pod'SnapKit',"5.0.1"
+pod'SwiftyJSON',"4.3.0"
+pod"lottie-ios","3.2.1"
+pod"MPHybrid/CN","0.4.77"
+pod"NIONetKit",:git=>"git@git.nioint.com:ios_dd/libraries/ios/nio-net-kit.git",:tag=>"2.0.0"
+pod"NIOAggregationLib",:git=>"git@git.nioint.com:ios-libs/nioaggregationlib.git",:tag=>"1.0.2"
+pod"NIOAppKit","1.14.26"
+pod"NIOQMap3D","1.0.2"
+pod"NIOPOISearch","0.6.13"
  pod "NIOPhotoPicker", :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOHXPhotoPicker.git", :tag => "nio_1.2.3"
  pod "NIOSocial", :path => "../"
 end

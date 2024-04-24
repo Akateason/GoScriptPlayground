@@ -2,5 +2,6 @@
   "MPCache":      "../MPCache",
   "SnapKit":      "../SnapKit",
 	"MPDebugTools": "../MPDebugTools",
-  "Eureka":       "../../Eureka123"
+  "Eureka":       "../../Eureka123",
+  "MPFoundation": "../MPFoundation呵呵"
 }

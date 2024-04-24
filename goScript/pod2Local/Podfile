@@ -17,9 +17,8 @@ target "NIOSocial_Example" do
 
  pod 'Eureka', :path=>"../../Eureka123"
 
+ pod "MPFoundation", :path=>"../MPFoundation呵呵"
 
- 
- pod "MPFoundation"
  pod "NIOApiProviders", :git => "git@git.nevint.com:ios_dd/nioapiproviders.git", :tag => "0.1.12"
  pod "MPUIKit", :subspecs => ["NIOUIKitDeprecated", "ALLSubSpecs"], :git => "git@git.nevint.com:ios_dd/mpuikit.git", :commit => '74e2d588b40d0a57344fc330b586de538cacf525' # textview有一个ui调整
  pod "MPBusinessModel", :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud"], :git => "git@git.nevint.com:ios_dd/mpbusinessmodel.git", :tag => "0.4.17"

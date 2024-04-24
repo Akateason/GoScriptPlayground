@@ -24,7 +24,7 @@ import (
 func main() {
 	app := &cli.App{
 		Name:  "pod2Local",
-		Usage: "pod2Local \nPodfile切本地. 请在Podfile同级目录下配置CONFIG_pod2Local为json文件. \n",
+		Usage: "pod2Local \nPodfile切本地. 请在Podfile同级目录下配置CONFIG_pod2Local为json文件. 配置格式e.g.: {'NIOSocial':'../','NIOSocial/Demo':'../'} \n",
 		Action: func(ctx *cli.Context) error {
 			fmt.Println(ctx.App.Usage)
 			// fmt.Printf("输入参数: %q \n", ctx.Args().Get(0)) // Arguments 参数
@@ -36,16 +36,13 @@ func main() {
 				fmt.Println("❌ 没有配置json到 CONFIG_pod2Local.")
 				fmt.Println("请配置.")
 				earth.WriteStringToFileFrom(configPath, "{\"pod_name\":\":path=>'../your_path'\"}")
-
 				return nil
 			}
 
 			tmpMap := earth.JsonStrToMap(tmpStr)
 			fmt.Printf("%q\n", tmpMap)
 
-			_ = podfile.ConfigPodfileWithMap(tmpMap)
-			// fmt.Printf("%q", whatMap)
-			// fmt.Printf("\n\n\n🐂🐴\n\n\n格式化成功, 查看format_副本_pod_file \n")
+			_ = podfile.Pod2LocalConfigPodfileWithMap(tmpMap)
 
 			return nil
 		},

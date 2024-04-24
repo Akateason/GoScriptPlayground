@@ -3,6 +3,7 @@ package earth
 import (
 	"bufio"
 	"encoding/json"
+	"regexp"
 
 	"fmt"
 	"io"
@@ -10,6 +11,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"os/user"
 	"strconv"
 	"strings"
 	"sync"
@@ -69,6 +71,27 @@ func ReadFileFrom(fileName string) string {
 	return string(f)
 }
 
+/**
+ * @description: linux的相对路径转成golang绝对路径
+ * @param {string} linuxRelativePath 形如 "/Desktop/aaa.txt"
+ * @return {error, absolutePath}
+ */
+func TransLinuxPathToAbsolutePath(linuxRelativePath string) (error, string) {
+	currentUser, err := user.Current()
+	if err != nil {
+		fmt.Println("transPathToAbsolutePath, 获取当前用户信息失败：", err)
+		return err, ""
+	}
+	if strings.Contains(linuxRelativePath, "~") {
+		linuxRelativePath = strings.ReplaceAll(linuxRelativePath, "~", "")
+	}
+	if !strings.HasPrefix(linuxRelativePath, "/") {
+		linuxRelativePath = "/" + linuxRelativePath
+	}
+	filePath := currentUser.HomeDir + linuxRelativePath
+	return nil, filePath
+}
+
 // isFileExists 判断所给路径文件/文件夹是否存在
 func IsFileExists(path string) bool {
 	_, err := os.Stat(path) //os.Stat获取文件信息
@@ -98,10 +121,10 @@ func WriteStringToFileFrom(fileName string, writeInfo string) {
 	_ = IfNoFileToCreate(fileName)
 	info := []byte(writeInfo)
 	if err := ioutil.WriteFile(fileName, info, 0666); err != nil {
-		log.Printf("WriteStringToFileFrom %q 写入文件失败:%+v", fileName, err)
+		log.Printf("WriteStringToFileFrom %q 写入失败:%+v", fileName, err)
 		return
 	}
-	log.Printf("WriteStringToFileFrom %q 写入文件成功", fileName)
+	log.Printf("WriteStringToFileFrom %q 写入成功", fileName)
 }
 
 // 获取当前项目根目录下所有文件
@@ -207,6 +230,33 @@ func JsonStrToMap(str string) map[string]interface{} {
 	return tempMap
 }
 
+/**
+ * @description: dict to str
+ * @param {map[string]string} data
+ * @return {*}
+ */
+func DictToText(data map[string]string) (string, error) {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonData), nil
+}
+
+/**
+ * @description: text to dict[str][str]
+ * @param {string} text
+ * @return {*}
+ */
+func TextToDict(text string) (map[string]string, error) {
+	var data map[string]string
+	err := json.Unmarshal([]byte(text), &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
 /*
 *
   - @description: 打印数组
@@ -222,4 +272,37 @@ func PrintArray(array []interface{}) {
 	for idx, str := range array {
 		fmt.Printf("%d-> %s\n", idx, str)
 	}
+}
+
+func PrintMap(theMap map[string]interface{}) {
+	for key, value := range theMap {
+		fmt.Println(key, ":", value.(string))
+	}
+}
+
+func PrintStrMap(theMap map[string]string) {
+	for key, value := range theMap {
+		fmt.Println(key, ":", value)
+	}
+}
+
+func IsVersionNumber(input string) bool {
+	regex := regexp.MustCompile(`^\d+\.\d+\.\d+$`)
+	if regex.MatchString(input) {
+		fmt.Printf("%s is a valid version number\n", input)
+		return true
+	} else {
+		fmt.Printf("%s is not a valid version number\n", input)
+		return false
+	}
+}
+
+func IsStrContainsEnglish(str string) bool {
+	dictionary := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	for _, v := range str {
+		if strings.Contains(dictionary, string(v)) {
+			return true
+		}
+	}
+	return false
 }
