@@ -1,126 +1,59 @@
 source "git@git.nevint.com:ios_dd/niopodrepo.git"
 source "https://cdn.cocoapods.org/"
-
-use_frameworks!
+source 'https://github.com/volcengine/volcengine-specs.git'
 
 platform :ios, "13.0"
 
-target "NIOSocial_Example" do
- pod 'LookinServer', :configurations => ['Debug']
+use_frameworks!
+install! "cocoapods", :disable_input_output_paths => true
 
- pod "MPDebugTools", :configurations => ['Debug','Test'],
- :git=>"git@git.nevint.com:ios_dd/mpdebugtools.git",
- :commit=>'2fada45c9d31d8fcb2669773d3dcd747d74deb8c'
-# :path => "../../mpdebugtools"
+target 'IMModule_Example' do
+  pod 'IMModule', :path => '../'
+  pod 'MPDebugTools',
+    #:path => "../../mpdebugtools",
+    :git => "git@git.nevint.com:ios_dd/mpdebugtools.git",
+    :commit => "b321b4beae6c72be7c5ac5a530314b722434ce0e",
+    #:branch => "feature/cn_environment",
+    :subspecs => ["CN"]
+  pod "IMUI",
+    #:path => "../../imui"
+    :git => "git@git.nevint.com:ios_dd/libraries/imui.git",
+    #:commit => "5d100c1b1adc7773d2d9cd6f904b4584945cc375"
+    :tag => "0.3.29"
 
-
- pod "NIOApiProviders",
- :git => "git@git.nevint.com:ios_dd/nioapiproviders.git",
- :tag => "0.1.12"
-
- pod "MPUIKit",
- :subspecs => ["NIOUIKitDeprecated", "ALLSubSpecs"],
- :git => "git@git.nevint.com:ios_dd/mpuikit.git",
- # :tag => "2.7.20"
- :commit => '74e2d588b40d0a57344fc330b586de538cacf525' # textview有一个ui调整
-# :path => '../../mpuikit'
-
- pod "MPBusinessModel",
- :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud"],
- # :path => "../../mpbusinessmodel"
- :git => "git@git.nevint.com:ios_dd/mpbusinessmodel.git",
- :tag => "0.4.17"
- # :path => "../../../Modules/MPBusinessModel"
-
- pod "MPRouter",
- :git => "git@git.nevint.com:ios_dd/mprouter.git",
- :tag => "1.2.2"
-
- pod "MPApi", 
- :git => "git@git.nevint.com:ios_dd/mpapi.git",
- :tag => "0.1.22"
-
- pod "MPBusinessComponent/CN", 
- "0.5.20"
-
- pod "MPSwiftUI",
- :git => "git@git.nevint.com:ios_dd/mpswiftui.git",
- :tag => '0.1.3'
-
- pod "MPLog", "~> 0.0.12"
-
- pod "MPLocale",
- :git => "git@git.nevint.com:ios_dd/mplocale.git",
- :tag => "0.0.22"
-
- pod "MPFoundation"
-
- pod "MPCache"
-
-
-
- pod 'MPPermissions', :subspecs => [
- 'CCRC', 'Network', 'Location',
- 'PhotoLibrary', 'Camera', 'Notification',
- 'Microphone', 'Biometrics', 'Bluetooth', 'Calendar', 'MPAuthorisationManager'
- ], :git => 'git@git.nevint.com:ios_dd/MPPermission.git', :tag => "1.0.8"
-
- pod 'Eureka', :git => 'git@git.nevint.com:ios_dd/libraries/ios-libs/Eureka.git', :tag => '4.3.2'
- pod "SDWebImage", "5.12.1"
- pod "MJRefresh", "3.1.15.1"
- pod 'RxCocoa', '5.1.1'
- pod 'SnapKit', '5.0.1'
- pod 'SwiftyJSON', '4.3.0'
- pod "lottie-ios", "3.2.1"
-
- # NIOAppKit
- pod "MPHybrid/CN", "0.2.20"
-
- pod "NIONetKit",
- :git => "git@git.nevint.com:ios_dd/libraries/ios/nio-net-kit.git",
- :tag => "2.0.0"
-
- pod "NIOAggregationLib",
- :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/nioaggregationlib.git",
- :tag => "1.0.0"
-
- pod "NIOAppKit",
- :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOAppKit.git",
- :tag => "1.14.4"
-
- # NIOPOISearch
-
- pod "NIOQMap3D",
- :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOQMap3D.git",
- :tag => "1.0.0"
-
- pod "NIOPOISearch",
- :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOPOISearch.git",
- :tag => "0.6.8"
-
- # NIOPhotoPicker
-
- pod "NIOPhotoPicker",
- :git => "git@git.nevint.com:ios_dd/libraries/ios-libs/NIOHXPhotoPicker.git",
- :tag => "nio_1.2.3"
-
- # NIOSocial
-
- pod "NIOSocial", :path => "../"
+  pod "MPBusinessComponent/CN", "0.13.11"
+  pod "MPBusinessModel", "0.10.9",
+      :subspecs => ["Vehicle", "CNLink", "CNAccount", "Review","AntiFraud", "AddressBookCN", "CNPOI","Invoice", "APM", "OCR", "GlobalSearch"]
+      
+  pod "NIOGray", '1.0.4'
+  pod 'NIOAppKit', '1.14.22'
+  
+  pod 'FDFoundation', :git => 'git@git.nioint.com:ios_dd/libraries/DOMOBILE-FeiDian/DOMOBILE-FeiDian-FDFoundation.git', :tag => '1.3.13'
+     
+  pod 'NIOURLNavigator', :git => 'git@git.nioint.com:ios_dd/libraries/ios-libs/NIOURLNavigator.git', :tag => '1.0.0'
+  
+  target 'IMModule_Tests' do
+    inherit! :search_paths
+  end
 end
 
 post_install do |installer|
- installer.pods_project.build_configurations.each do |config|
- config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-D DEMO']
- end
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      # 移除 iOS 8.0 部署配置。Xcode 12 已不支持 iOS 8.0，移除设置将清理编译器警告。
+      # Pods 项目将使用主项目部署配置。
+      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+      config.build_settings['ENABLE_BITCODE'] = 'NO'
+      config.build_settings['SWIFT_VERSION'] = '5.0'
 
- installer.pods_project.targets.each do |target|
- target.build_configurations.each do |config|
- # 移除 iOS 8.0 部署配置。Xcode 12 已不支持 iOS 8.0，移除设置将清理编译器警告。
- # Pods 项目将使用主项目部署配置。
- config.build_settings.delete "IPHONEOS_DEPLOYMENT_TARGET"
-
- config.build_settings["ENABLE_BITCODE"] = "NO"
- end
- end
+      # Xcode14 移除bundle签名
+      if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+        config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+      end
+    end
+    installer.pods_project.build_configurations.each do |config|
+        # 适配 Xcode 14.3 移除 Rosetta 模式
+        config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+    end
+  end
 end
