@@ -1,6 +1,6 @@
-#!/bin/sh
-for file in *; do
-    if [[ $file == *.xcworkspace ]]; then
-        open $file
-    fi
+#!/bin/bash
+
+find . -name "*.xcworkspace" -print -quit | while read workspace; do  
+  open "$workspace"  
+  break
 done
