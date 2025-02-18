@@ -2,7 +2,7 @@
  * @Author: Mamba24 akateason@qq.com
  * @Date: 2022-09-19 23:07:46
  * @LastEditors: tianchen.xie tianchen.xie@nio.com
- * @LastEditTime: 2024-04-02 14:57:48
+ * @LastEditTime: 2025-02-18 15:39:36
  * @FilePath: /GoScriptPlayground/earth/cocoapod/podfile/podfile.go
  * @Description: podfile工具
  *
@@ -499,7 +499,9 @@ func isTargetDoEnd(source string) bool {
 	if strings.Contains(clearedStr, "inherit") {
 		return true
 	}
-
+	if strings.Contains(clearedStr, "end") {
+		return true
+	}
 	return false
 }
 
