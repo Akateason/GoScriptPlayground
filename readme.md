@@ -44,8 +44,8 @@ publishAll
 podGitAddress
 
 openWorkSpace.sh
-pi_only.sh
-pi_repo_update.sh
+pi_noRepoUpdate.sh
+pi_repoUpdate.sh
 pod_trunk_push.sh
-pu_only.sh
+pu_noRepoUpdate.sh
 ```
